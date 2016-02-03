@@ -1,0 +1,5 @@
+#!/bin/bash
+
+python Assignment1.py -n 1 -m 10 austen.txt >> n1_m10.txt
+python Assignment1.py -n 2 -m 10 austen.txt >> n2_m10.txt
+python Assignment1.py -n 3 -m 10 austen.txt >> n3_m10.txt
