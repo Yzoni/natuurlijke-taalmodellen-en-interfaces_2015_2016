@@ -55,7 +55,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     text_list = get_text_as_list(args.corpus)
     frequencies = []
-    for i in range(1,2):
+    for i in range(1,4):
         frequency_dict = find_n_grams(text_list, i)
         m_most_frequent_n_grams = get_most_frequent(frequency_dict, args.m)
         wfilename = most_frequent_to_file(m_most_frequent_n_grams,str(i),args.corpus, str(args.m))
