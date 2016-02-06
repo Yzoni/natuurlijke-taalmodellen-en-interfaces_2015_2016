@@ -18,14 +18,16 @@ def get_n_gram(corpus, sequence_size, amount_of_results):
     """Find frequencies of word sequences in a text file, returns a
     list of tuples."""
     words = re.findall(r'\w+', corpus)
-    sequences = []
-    for id, word in enumerate(words):
-        paragraph = []
+    allngrams = []
+    paragraph = []
+    for word in words:
         paragraph.append(word)
         if word == "0STOP0":
-            for j in range(len(words) - sequence_size + 1):
-                sequences.append(' '.join(words[id:id + sequence_size]))
-    return sequences, Counter(sequences).most_common(amount_of_results)
+            ngrams = list(zip(*[paragraph[i:] for i in range(sequence_size)]))
+            allngrams += ngrams
+            paragraph = []
+
+    return allngrams, Counter(allngrams).most_common(amount_of_results)
 
 def insert_start_stop(corpus_filename):
     text = open(corpus_filename, 'r').read()
@@ -40,5 +42,4 @@ def sequence_probability(sequence, corpus, n_grams, n_min_1_grams):
 
 txt = insert_start_stop(args.corpus)
 s, c = get_n_gram(txt, args.n, args.m)
-print(s)
-print(c)
+pprint(c)
