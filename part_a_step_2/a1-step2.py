@@ -7,7 +7,6 @@ import re
 from collections import Counter
 from pprint import pprint
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('-corpus', type=str, help='text file of corpus')
 parser.add_argument('-n', type=int, default=3, help='integer for the amount of words in sequence ')
