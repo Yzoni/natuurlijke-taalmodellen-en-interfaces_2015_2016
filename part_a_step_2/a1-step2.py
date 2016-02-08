@@ -5,16 +5,15 @@
 import argparse
 import re
 from collections import Counter
-from pprint import pprint
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-corpus', type=str, help='text file of corpus')
+parser.add_argument('corpus', type=str, help='text file of corpus')
 parser.add_argument('-n', type=int, default=3, help='integer for the amount of words in sequence ')
-parser.add_argument('-m', type=int, default=10, help='integer for the amount of top frequencies')
-# parser.add_argument('conditional-prob-file', type=str, help='conditional probability file')
+parser.add_argument('-conditional_prob_file', type=str, help='conditional probability file')
 args = parser.parse_args()
 
-def get_n_gram(corpus, sequence_size, amount_of_results):
+
+def get_n_gram(corpus, sequence_size):
     """Find frequencies of word sequences in a text file, returns a
     list of tuples."""
     words = re.findall(r'\w+', corpus)
@@ -27,7 +26,7 @@ def get_n_gram(corpus, sequence_size, amount_of_results):
             allngrams += ngrams
             paragraph = []
 
-    return allngrams, Counter(allngrams).most_common(amount_of_results)
+    return allngrams
 
 def insert_start_stop(corpus_filename):
     text = open(corpus_filename, 'r').read()
@@ -37,9 +36,36 @@ def insert_start_stop(corpus_filename):
     text = text[:-9]
     return text
 
-def sequence_probability(sequence, corpus, n_grams, n_min_1_grams):
-    pass
 
-txt = insert_start_stop(args.corpus)
-s, c = get_n_gram(txt, args.n, args.m)
-pprint(c)
+def condition_probability(ngrams, ngrams_1, file):
+    ngrams_counted = dict(Counter(ngrams))
+    ngrams_1_counted = dict(Counter(ngrams_1))
+
+    text = open(file, 'r')
+    probabilities = {}
+    for line in text:
+        n_list = line.split()
+        last_word = n_list[-1]
+        n_1_list = n_list[:-1]
+
+        n_tuple = tuple(n_list)
+        n_1_tuple = tuple(n_1_list)
+
+        count_n = ngrams_counted.get(n_tuple)
+        count_1_n = ngrams_1_counted.get(n_1_tuple)
+        if count_n and count_1_n:
+            prob = count_n / count_1_n
+            probabilities[last_word] = prob
+    return probabilities
+
+
+def sequence_probability():
+    return -1
+
+
+if __name__ == "__main__":
+    text_start_stop = insert_start_stop(args.corpus)
+    ngrams = get_n_gram(text_start_stop, args.n)
+    ngrams_1 = get_n_gram(text_start_stop, args.n - 1)
+    if args.conditional_prob_file:
+        print(condition_probability(ngrams, ngrams_1, "cond_file.txt"))
