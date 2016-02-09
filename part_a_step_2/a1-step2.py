@@ -43,7 +43,7 @@ def insert_start_stop(corpus_filename):
 
 def file_to_list(file):
     text = open(file, 'r')
-    return [line for line in text]
+    return [re.sub(r'\n', '', line) for line in text]
 
 
 def condition_probability(ngrams, ngrams_1, list_of_file):
@@ -67,8 +67,38 @@ def condition_probability(ngrams, ngrams_1, list_of_file):
     return probabilities
 
 
-def sequence_probability(list_of_file):
-    return -1
+def sequence_probability(corpus_start_stop, list_of_file):
+    stuff = {}
+    for line in list_of_file:
+        list_of_line = line.split(' ')
+        grams_file = [list_of_line[-id:] for id, word in enumerate(list_of_line)]
+        probabilities = []
+        for grams in grams_file:
+            length_of_string = len(grams)
+
+            ngrams, most_common = get_n_gram(text_start_stop, length_of_string)
+            ngrams_1, most_common_1 = get_n_gram(text_start_stop, length_of_string - 1)
+            ngrams_counted = dict(Counter(ngrams))
+            ngrams_1_counted = dict(Counter(ngrams_1))
+
+            stringed_grams = ' '.join(grams)
+            n_list = line.split()
+            n_1_list = n_list[:-1]
+            last_word = n_list[-1]
+
+            n_tuple = tuple(n_list)
+            n_1_tuple = tuple(n_1_list)
+
+            count_n = ngrams_counted.get(n_tuple)
+            count_1_n = ngrams_1_counted.get(n_1_tuple)
+            if count_n and count_1_n:
+                prob = count_n / count_1_n
+                probabilities.append(prob)
+        prob = 1
+        for prob in probabilities:
+            prob *= prob
+        stuff[line] = prob
+    return stuff
 
 
 def scored_permutations(words):
@@ -90,7 +120,7 @@ if __name__ == "__main__":
     if args.sequence_prob_file:
         print('Sequential probability')
         list_of_file = file_to_list(args.sequence_prob_file)
-        pprint(sequence_probability(list_of_file))
+        pprint(sequence_probability(text_start_stop, list_of_file))
     if args.scored_permutations:
         print('Scored permutations')
         scored_permutations(args.scored_permutations)
