@@ -5,6 +5,7 @@
 import argparse
 import re
 from collections import Counter
+from pprint import pprint
 
 parser = argparse.ArgumentParser()
 parser.add_argument('corpus', type=str, help='text file of corpus')
@@ -27,7 +28,7 @@ def get_n_gram(corpus, sequence_size):
             allngrams += ngrams
             paragraph = []
 
-    return allngrams
+    return allngrams, Counter(allngrams).most_common(10)
 
 def insert_start_stop(corpus_filename):
     text = open(corpus_filename, 'r').read()
@@ -66,9 +67,14 @@ def sequence_probability():
 
 if __name__ == "__main__":
     text_start_stop = insert_start_stop(args.corpus)
-    ngrams = get_n_gram(text_start_stop, args.n)
-    ngrams_1 = get_n_gram(text_start_stop, args.n - 1)
+    ngrams, most_common = get_n_gram(text_start_stop, args.n)
+    ngrams_1, _ = get_n_gram(text_start_stop, args.n - 1)
+    print('Most common ngrams:')
+    pprint(most_common)
+    print('\n')
     if args.conditional_prob_file:
-        print(condition_probability(ngrams, ngrams_1, args.conditional_prob_file))
+        print('Conditional probability:')
+        pprint(condition_probability(ngrams, ngrams_1, args.conditional_prob_file))
     if args.sequence_prob_file:
+        print('Sequential probability')
         print(sequence_probability())
