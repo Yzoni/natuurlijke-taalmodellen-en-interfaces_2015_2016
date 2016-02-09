@@ -3,6 +3,7 @@
 # Names: Yorick de Boer, Julian Main, Amor Frans
 
 import argparse
+import itertools
 import re
 from collections import Counter
 from pprint import pprint
@@ -12,6 +13,7 @@ parser.add_argument('corpus', type=str, help='text file of corpus')
 parser.add_argument('-n', type=int, default=3, help='integer for the amount of words in sequence ')
 parser.add_argument('-conditional_prob_file', type=str, help='conditional probability file')
 parser.add_argument('-sequence_prob_file', type=str, help='sequential probability file')
+parser.add_argument('-args.scored_permutations', type=str, help='set of words as list')
 args = parser.parse_args()
 
 
@@ -39,13 +41,17 @@ def insert_start_stop(corpus_filename):
     return text
 
 
-def condition_probability(ngrams, ngrams_1, file):
+def file_to_list(file):
+    text = open(file, 'r')
+    return [line for line in text]
+
+
+def condition_probability(ngrams, ngrams_1, list_of_file):
     ngrams_counted = dict(Counter(ngrams))
     ngrams_1_counted = dict(Counter(ngrams_1))
 
-    text = open(file, 'r')
     probabilities = {}
-    for line in text:
+    for line in list_of_file:
         n_list = line.split()
         n_1_list = n_list[:-1]
         last_word = n_list[-1]
@@ -61,8 +67,13 @@ def condition_probability(ngrams, ngrams_1, file):
     return probabilities
 
 
-def sequence_probability():
+def sequence_probability(list_of_file):
     return -1
+
+
+def scored_permutations(words):
+    permutations = itertools.permutations(words)
+    return sequence_probability(permutations)
 
 
 if __name__ == "__main__":
@@ -74,7 +85,11 @@ if __name__ == "__main__":
     print('\n')
     if args.conditional_prob_file:
         print('Conditional probability:')
-        pprint(condition_probability(ngrams, ngrams_1, args.conditional_prob_file))
+        list_of_file = file_to_list(args.conditional_prob_file)
+        pprint(condition_probability(ngrams, ngrams_1, list_of_file))
     if args.sequence_prob_file:
         print('Sequential probability')
-        print(sequence_probability())
+        list_of_file = file_to_list(args.sequence_prob_file)
+        pprint(sequence_probability(list_of_file))
+    if args.scored_permutations:
+        scored_permutations(args.scored_permutations)
