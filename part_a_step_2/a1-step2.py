@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('corpus', type=str, help='text file of corpus')
 parser.add_argument('-n', type=int, default=3, help='integer for the amount of words in sequence ')
 parser.add_argument('-conditional_prob_file', type=str, help='conditional probability file')
+parser.add_argument('-sequence_prob_file', type=str, help='sequential probability file')
 args = parser.parse_args()
 
 
@@ -45,8 +46,8 @@ def condition_probability(ngrams, ngrams_1, file):
     probabilities = {}
     for line in text:
         n_list = line.split()
-        last_word = n_list[-1]
         n_1_list = n_list[:-1]
+        last_word = n_list[-1]
 
         n_tuple = tuple(n_list)
         n_1_tuple = tuple(n_1_list)
@@ -68,4 +69,6 @@ if __name__ == "__main__":
     ngrams = get_n_gram(text_start_stop, args.n)
     ngrams_1 = get_n_gram(text_start_stop, args.n - 1)
     if args.conditional_prob_file:
-        print(condition_probability(ngrams, ngrams_1, "cond_file.txt"))
+        print(condition_probability(ngrams, ngrams_1, args.conditional_prob_file))
+    if args.sequence_prob_file:
+        print(sequence_probability())
