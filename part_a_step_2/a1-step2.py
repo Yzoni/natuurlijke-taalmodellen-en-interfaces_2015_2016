@@ -13,7 +13,7 @@ parser.add_argument('corpus', type=str, help='text file of corpus')
 parser.add_argument('-n', type=int, default=3, help='integer for the amount of words in sequence ')
 parser.add_argument('-conditional_prob_file', type=str, help='conditional probability file')
 parser.add_argument('-sequence_prob_file', type=str, help='sequential probability file')
-parser.add_argument('-args.scored_permutations', type=str, help='set of words as list')
+parser.add_argument('-scored_permutations', type=str, help='set of words as list')
 args = parser.parse_args()
 
 
@@ -92,4 +92,5 @@ if __name__ == "__main__":
         list_of_file = file_to_list(args.sequence_prob_file)
         pprint(sequence_probability(list_of_file))
     if args.scored_permutations:
+        print('Scored permutations')
         scored_permutations(args.scored_permutations)
