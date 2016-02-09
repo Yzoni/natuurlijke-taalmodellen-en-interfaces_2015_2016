@@ -3,29 +3,34 @@
 # Names: Yorick de Boer, Julian Main, Amor Frans
 
 import argparse
+import itertools
 import re
 from collections import Counter
 from pprint import pprint
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-corpus', type=str, help='text file of corpus')
+parser.add_argument('corpus', type=str, help='text file of corpus')
 parser.add_argument('-n', type=int, default=3, help='integer for the amount of words in sequence ')
-parser.add_argument('-m', type=int, default=10, help='integer for the amount of top frequencies')
-# parser.add_argument('conditional-prob-file', type=str, help='conditional probability file')
+parser.add_argument('-conditional_prob_file', type=str, help='conditional probability file')
+parser.add_argument('-sequence_prob_file', type=str, help='sequential probability file')
+parser.add_argument('-scored_permutations', type=str, help='set of words as list')
 args = parser.parse_args()
 
-def get_n_gram(corpus, sequence_size, amount_of_results):
+
+def get_n_gram(corpus, sequence_size):
     """Find frequencies of word sequences in a text file, returns a
     list of tuples."""
     words = re.findall(r'\w+', corpus)
-    sequences = []
-    for id, word in enumerate(words):
-        paragraph = []
+    allngrams = []
+    paragraph = []
+    for word in words:
         paragraph.append(word)
         if word == "0STOP0":
-            for j in range(len(words) - sequence_size + 1):
-                sequences.append(' '.join(words[id:id + sequence_size]))
-    return sequences, Counter(sequences).most_common(amount_of_results)
+            ngrams = list(zip(*[paragraph[i:] for i in range(sequence_size)]))
+            allngrams += ngrams
+            paragraph = []
+
+    return allngrams, Counter(allngrams).most_common(10)
 
 def insert_start_stop(corpus_filename):
     text = open(corpus_filename, 'r').read()
@@ -35,10 +40,89 @@ def insert_start_stop(corpus_filename):
     text = text[:-9]
     return text
 
-def sequence_probability(sequence, corpus, n_grams, n_min_1_grams):
-    pass
 
-txt = insert_start_stop(args.corpus)
-s, c = get_n_gram(txt, args.n, args.m)
-print(s)
-print(c)
+def file_to_list(file):
+    text = open(file, 'r')
+    return [re.sub(r'\n', '', line) for line in text]
+
+
+def condition_probability(ngrams, ngrams_1, list_of_file):
+    ngrams_counted = dict(Counter(ngrams))
+    ngrams_1_counted = dict(Counter(ngrams_1))
+
+    probabilities = {}
+    for line in list_of_file:
+        n_list = line.split()
+        n_1_list = n_list[:-1]
+        last_word = n_list[-1]
+
+        n_tuple = tuple(n_list)
+        n_1_tuple = tuple(n_1_list)
+
+        count_n = ngrams_counted.get(n_tuple)
+        count_1_n = ngrams_1_counted.get(n_1_tuple)
+        if count_n and count_1_n:
+            prob = count_n / count_1_n
+            probabilities[last_word] = prob
+    return probabilities
+
+
+def sequence_probability(corpus_start_stop, list_of_file):
+    stuff = {}
+    for line in list_of_file:
+        print(line)
+        list_of_line = line.split(' ')
+        grams_file = [list_of_line[-id:] for id, word in enumerate(list_of_line)]
+        probabilities = []
+        for grams in grams_file:
+            length_of_string = len(grams)
+
+            ngrams, most_common = get_n_gram(text_start_stop, length_of_string)
+            ngrams_1, most_common_1 = get_n_gram(text_start_stop, length_of_string - 1)
+            ngrams_counted = dict(Counter(ngrams))
+            ngrams_1_counted = dict(Counter(ngrams_1))
+
+            stringed_grams = ' '.join(grams)
+            n_list = line.split()
+            n_1_list = n_list[:-1]
+            last_word = n_list[-1]
+
+            n_tuple = tuple(n_list)
+            n_1_tuple = tuple(n_1_list)
+
+            count_n = ngrams_counted.get(n_tuple)
+            count_1_n = ngrams_1_counted.get(n_1_tuple)
+            if count_n and count_1_n:
+                prob = count_n / count_1_n
+                probabilities.append(prob)
+        prob = 1
+        for prob in probabilities:
+            prob *= prob
+        stuff[line] = prob
+    return stuff
+
+
+def scored_permutations(text_start_stop, words):
+    permutations = itertools.permutations(words)
+    return sequence_probability(text_start_stop, permutations)
+
+
+if __name__ == "__main__":
+    text_start_stop = insert_start_stop(args.corpus)
+    ngrams, most_common = get_n_gram(text_start_stop, args.n)
+    ngrams_1, _ = get_n_gram(text_start_stop, args.n - 1)
+    print('Most common ngrams:')
+    pprint(most_common)
+    print('\n')
+    if args.conditional_prob_file:
+        print('Conditional probability:')
+        list_of_file = file_to_list(args.conditional_prob_file)
+        pprint(condition_probability(ngrams, ngrams_1, list_of_file))
+    if args.sequence_prob_file:
+        print('Sequential probability')
+        list_of_file = file_to_list(args.sequence_prob_file)
+        pprint(sequence_probability(text_start_stop, list_of_file))
+    if args.scored_permutations:
+        print('Scored permutations')
+        print(args.scored_permutations)
+        scored_permutations(text_start_stop, args.scored_permutations)
