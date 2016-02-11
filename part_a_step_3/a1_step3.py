@@ -32,7 +32,11 @@ def insert_start_stop(text_filename):
     return text
 
 
-def get_n_gram(text_string, sequence_size):
+def get_n_gram_string(text_string, sequence_size):
+    return list(zip(*[text_string[i:] for i in range(sequence_size)]))
+
+
+def get_n_gram_text(text_string, sequence_size):
     """Find frequencies of word sequences in a text string returns a
     list of tuples."""
     words = re.findall(r'\w+', text_string)
@@ -43,7 +47,7 @@ def get_n_gram(text_string, sequence_size):
         if word == "0STOP0":
             ngrams = list(zip(*[paragraph[i:] for i in range(sequence_size)]))
             allngrams += ngrams
-            del paragraph[:]
+            del paragraph[:]  # Make list empty for next paragraph
 
     return allngrams
 
@@ -72,7 +76,7 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc
             paragraph.append(word)  # Add stop symbol to paragraph
 
             paragraph_string = ' '.join(paragraph)  # get_n_gram() expects a string
-            paragraph_ngrams = get_n_gram(paragraph_string, sequence_size)
+            paragraph_ngrams = get_n_gram_string(paragraph_string, sequence_size)
 
             prob = 1
             for p_ngram in paragraph_ngrams:
@@ -80,7 +84,7 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc
                 p_n_1_gramn_count = n_1_gram_count.get(tuple(p_ngram[:-1])) + voc_size
                 prob *= (p_ngram_count / p_n_1_gramn_count)
             probabilities.append(prob)
-            del paragraph[:]
+            del paragraph[:]  # Make list empty for next paragraph
     return probabilities
 
 
