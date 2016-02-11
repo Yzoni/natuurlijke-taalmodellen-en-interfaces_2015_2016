@@ -45,7 +45,7 @@ def get_n_gram_text(text_string, sequence_size):
     for word in words:
         paragraph.append(word)
         if word == "0STOP0":
-            ngrams = list(zip(*[paragraph[i:] for i in range(sequence_size)]))
+            ngrams = get_n_gram_string(text_string, sequence_size)
             allngrams += ngrams
             del paragraph[:]  # Make list empty for next paragraph
 
@@ -94,8 +94,8 @@ def good_turing_smoothing():
 
 if __name__ == "__main__":
     text_start_stop = insert_start_stop(args.training_corpus)
-    ngrams = get_n_gram(text_start_stop, args.n)
-    n_1_grams = get_n_gram(text_start_stop, args.n - 1)
+    ngrams = get_n_gram_text(text_start_stop, args.n)
+    n_1_grams = get_n_gram_text(text_start_stop, args.n - 1)
     ngram_count = dict(Counter(ngrams))
     n_1_gram_count = dict(Counter(n_1_grams))
 
