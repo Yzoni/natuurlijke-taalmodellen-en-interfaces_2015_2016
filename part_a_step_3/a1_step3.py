@@ -1,6 +1,6 @@
 import argparse
 import re
-
+from collections import Counter
 
 parser = argparse.ArgumentParser()
 parser.add_argument('training_corpus', type=str, help='text file of training corpus')
@@ -43,12 +43,45 @@ def get_n_gram(text_string, sequence_size):
         if word == "0STOP0":
             ngrams = list(zip(*[paragraph[i:] for i in range(sequence_size)]))
             allngrams += ngrams
-            paragraph = []
+            del paragraph[:]
 
     return allngrams
 
+
+def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc_size):
+    """
+    Returns probabilities as a list for all paragraphs in a test file
+    :param ngram_count: dictionary with ngram count from training file
+    :param n_1_gram_count: dictionary with ngram - 1 count from training data
+    :param test_file: file to test
+    :param sequence_size: size of the ngram
+    :param voc_size: the vocabulary size
+    :return: list of probabilities per paragraph
+    """
+    testtext_start_stop = insert_start_stop(test_file)  # Add start stop symbols to test file
+    words = re.findall(r'\w+', testtext_start_stop)
+    probabilities = []
+    paragraph = []
+    for word in words:
+        paragraph.append(word)
+        if word == "0STOP0":  # Paragraph end
+            paragraph.append(word)  # Add stop symbol to paragraph
+
+            paragraph_string = ' '.join(paragraph)  # get_n_gram() expects a string
+            paragraph_ngrams = get_n_gram(paragraph_string, sequence_size)
+
+            prob = 1
+            for p_ngram in paragraph_ngrams:
+                p_ngram_count = ngram_count.get(tuple(p_ngram)) + 1
+                p_n_1_gramn_count = n_1_gram_count.get(tuple(p_ngram[:-1])) + voc_size
+                prob *= (p_ngram_count / p_n_1_gramn_count)
+            probabilities.append(prob)
+            del paragraph[:]
+    return probabilities
 
 if __name__ == "__main__":
     text_start_stop = insert_start_stop(args.training_corpus)
     ngrams = get_n_gram(text_start_stop, args.n)
     n_1_grams = get_n_gram(text_start_stop, args.n - 1)
+    ngram_count = dict(Counter(ngrams))
+    n_1_gram_count = dict(Counter(n_1_grams))
