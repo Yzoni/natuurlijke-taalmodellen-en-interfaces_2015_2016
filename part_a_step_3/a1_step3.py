@@ -32,5 +32,23 @@ def insert_start_stop(text_filename):
     return text
 
 
+def get_n_gram(text_string, sequence_size):
+    """Find frequencies of word sequences in a text string returns a
+    list of tuples."""
+    words = re.findall(r'\w+', text_string)
+    allngrams = []
+    paragraph = []
+    for word in words:
+        paragraph.append(word)
+        if word == "0STOP0":
+            ngrams = list(zip(*[paragraph[i:] for i in range(sequence_size)]))
+            allngrams += ngrams
+            paragraph = []
+
+    return allngrams
+
+
 if __name__ == "__main__":
-    exit(1)
+    text_start_stop = insert_start_stop(args.training_corpus)
+    ngrams = get_n_gram(text_start_stop, args.n)
+    n_1_grams = get_n_gram(text_start_stop, args.n - 1)

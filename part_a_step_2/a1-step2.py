@@ -30,7 +30,7 @@ def get_n_gram(corpus, sequence_size):
             allngrams += ngrams
             paragraph = []
 
-    return allngrams, Counter(allngrams).most_common(10)
+    return allngrams
 
 
 def insert_start_stop(corpus_filename):
