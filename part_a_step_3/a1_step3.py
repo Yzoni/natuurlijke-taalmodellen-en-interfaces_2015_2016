@@ -48,6 +48,10 @@ def get_n_gram(text_string, sequence_size):
     return allngrams
 
 
+def no_smoothing():
+    return -1
+
+
 def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc_size):
     """
     Returns probabilities as a list for all paragraphs in a test file
@@ -79,9 +83,22 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc
             del paragraph[:]
     return probabilities
 
+
+def good_turing_smoothing():
+    return -1
+
+
 if __name__ == "__main__":
     text_start_stop = insert_start_stop(args.training_corpus)
     ngrams = get_n_gram(text_start_stop, args.n)
     n_1_grams = get_n_gram(text_start_stop, args.n - 1)
     ngram_count = dict(Counter(ngrams))
     n_1_gram_count = dict(Counter(n_1_grams))
+
+    if args.smoothing == 'no':
+        no_smoothing()
+    elif args.smoothing == 'add1':
+        add_one_smoothing(ngram_count, n_1_gram_count, args.test_corpus, args.n,
+                          get_vocabulary_size(args.training_corpus))
+    elif args.smoothing == 'gt':
+        good_turing_smoothing()
