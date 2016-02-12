@@ -5,7 +5,7 @@ from collections import Counter
 parser = argparse.ArgumentParser()
 parser.add_argument('training_corpus', type=str, help='text file of training corpus')
 parser.add_argument('test_corpus', type=str, help='text file of test corpus')
-parser.add_argument('-n', type=str, help='value')
+parser.add_argument('-n', type=int, help='value')
 parser.add_argument('-smoothing', type=str, help='smoothing algorithm', default='no')
 args = parser.parse_args()
 
@@ -41,7 +41,7 @@ def get_n_gram_text(text_string, sequence_size):
     for word in words:
         paragraph.append(word)
         if word == "0STOP0":
-            ngrams = get_n_gram_string(text_string, sequence_size)
+            ngrams = get_n_gram_string(paragraph, sequence_size)
             allngrams += ngrams
             del paragraph[:]  # Make list empty for next paragraph
 
