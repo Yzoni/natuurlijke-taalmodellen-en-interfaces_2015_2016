@@ -12,13 +12,9 @@ args = parser.parse_args()
 
 def get_vocabulary_size(text_filename):
     """Returns the amount of words in a text file"""
-    word_count = 0
-
     f = open(text_filename)
-    for line in f:
-        words = line.split()
-        word_count += len(words)
-    return word_count
+    text = f.read().split()
+    return len(Counter(text))
 
 
 def insert_start_stop(text_filename):
@@ -98,7 +94,6 @@ if __name__ == "__main__":
     n_1_grams = get_n_gram_text(text_start_stop, args.n - 1)
     ngram_count = dict(Counter(ngrams))
     n_1_gram_count = dict(Counter(n_1_grams))
-
     if args.smoothing == 'no':
         no_smoothing()
     elif args.smoothing == 'add1':
