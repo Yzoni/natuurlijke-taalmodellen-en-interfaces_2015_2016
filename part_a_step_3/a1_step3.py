@@ -72,10 +72,10 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc
         if word == "0STOP0":  # Paragraph end
             paragraph_ngrams = get_n_gram_string(paragraph, sequence_size)
 
-            prob = 1
             for p_ngram in paragraph_ngrams:
+
                 p_ngram_count = ngram_count.get(p_ngram)  # Returns non if not found
-                if p_ngram_count is None:  # Check for none
+                if p_ngram_count is None:
                     p_ngram_count = 1
                 else:
                     p_ngram_count += 1
@@ -85,6 +85,8 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc
                     p_n_1_gramn_count = voc_size
                 else:
                     p_n_1_gramn_count += voc_size
+
+                prob = 1
                 prob *= (p_ngram_count / p_n_1_gramn_count)
             probabilities.append(prob)
             del paragraph[:]  # Make list empty for next paragraph
