@@ -1,6 +1,7 @@
 import argparse
 import re
 from collections import Counter
+from pprint import pprint
 
 parser = argparse.ArgumentParser()
 parser.add_argument('training_corpus', type=str, help='text file of training corpus')
@@ -23,7 +24,7 @@ def insert_start_stop(text_filename):
     text = open(text_filename, 'r').read()
     text = re.sub(r'(\n\n)+', ' 0STOP0 0START0 ', text)
     text = re.sub(r'(\n)', ' ', text)
-    text = '<START>' + text
+    text = '0START0' + text
     text = text[:-9]
     return text
 
@@ -69,15 +70,21 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc
     for word in words:
         paragraph.append(word)
         if word == "0STOP0":  # Paragraph end
-            paragraph.append(word)  # Add stop symbol to paragraph
-
-            paragraph_string = ' '.join(paragraph)  # get_n_gram() expects a string
-            paragraph_ngrams = get_n_gram_string(paragraph_string, sequence_size)
+            paragraph_ngrams = get_n_gram_string(paragraph, sequence_size)
 
             prob = 1
             for p_ngram in paragraph_ngrams:
-                p_ngram_count = ngram_count.get(tuple(p_ngram)) + 1
-                p_n_1_gramn_count = n_1_gram_count.get(tuple(p_ngram[:-1])) + voc_size
+                p_ngram_count = ngram_count.get(p_ngram)  # Returns non if not found
+                if p_ngram_count is None:  # Check for none
+                    p_ngram_count = 1
+                else:
+                    p_ngram_count += 1
+
+                p_n_1_gramn_count = n_1_gram_count.get(p_ngram[:-1])
+                if p_n_1_gramn_count is None:
+                    p_n_1_gramn_count = voc_size
+                else:
+                    p_n_1_gramn_count += voc_size
                 prob *= (p_ngram_count / p_n_1_gramn_count)
             probabilities.append(prob)
             del paragraph[:]  # Make list empty for next paragraph
@@ -97,7 +104,7 @@ if __name__ == "__main__":
     if args.smoothing == 'no':
         no_smoothing()
     elif args.smoothing == 'add1':
-        add_one_smoothing(ngram_count, n_1_gram_count, args.test_corpus, args.n,
-                          get_vocabulary_size(args.training_corpus))
+        pprint(add_one_smoothing(ngram_count, n_1_gram_count, args.test_corpus, args.n,
+                                 get_vocabulary_size(args.training_corpus)))
     elif args.smoothing == 'gt':
         good_turing_smoothing()
