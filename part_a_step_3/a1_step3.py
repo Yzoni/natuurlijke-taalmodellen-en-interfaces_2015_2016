@@ -72,6 +72,7 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc
         if word == "0STOP0":  # Paragraph end
             paragraph_ngrams = get_n_gram_string(paragraph, sequence_size)
 
+            prob = 1
             for p_ngram in paragraph_ngrams:
 
                 p_ngram_count = ngram_count.get(p_ngram)  # Returns non if not found
@@ -86,20 +87,53 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_file, sequence_size, voc
                 else:
                     p_n_1_gramn_count += voc_size
 
-                prob = 1
                 prob *= (p_ngram_count / p_n_1_gramn_count)
             probabilities.append(prob)
             del paragraph[:]  # Make list empty for next paragraph
     return probabilities
 
 
-def good_turing_smoothing():
-    return -1
+def good_turing_smoothing(ngram_count, test_file, sequence_size, length_ngrams):
+    testtext_start_stop = insert_start_stop(test_file)  # Add start stop symbols to test file
+    words = re.findall(r'\w+', testtext_start_stop)
+    probabilities = []
+    paragraph = []
+
+    values = [ngram_count.get(key_bigram_count) for key_bigram_count in ngram_count]
+    counted_values = Counter(values)
+    pprint(counted_values)
+
+    for word in words:
+        paragraph.append(word)
+        if word == "0STOP0":  # Paragraph end
+            paragraph_ngrams = get_n_gram_string(paragraph, sequence_size)
+
+            prob = 1
+            for p_ngram in paragraph_ngrams:
+                c = ngram_count.get(p_ngram)  # Returns non if not found
+                if c is not None and c <= 5:  # assignment description says so
+                    # Nc+1
+                    if c is None:
+                        c = 0
+                        # Nc+1
+                        count_nc1 = counted_values.get(c + 1)
+                        prob *= count_nc1 / length_ngrams
+                    else:
+                        # Nc+1
+                        count_nc1 = counted_values.get(c + 1)
+                        # Nc
+                        count_nc = counted_values.get(c)
+                        c_star = ((c + 1) * count_nc1) / count_nc
+                        prob *= c_star / length_ngrams
+            probabilities.append(prob)
+            del paragraph[:]  # Make list empty for next paragraph
+    return probabilities
 
 
 if __name__ == "__main__":
     text_start_stop = insert_start_stop(args.training_corpus)
     ngrams = get_n_gram_text(text_start_stop, args.n)
+    length_ngrams = len(ngrams)
     n_1_grams = get_n_gram_text(text_start_stop, args.n - 1)
     ngram_count = dict(Counter(ngrams))
     n_1_gram_count = dict(Counter(n_1_grams))
@@ -109,4 +143,4 @@ if __name__ == "__main__":
         pprint(add_one_smoothing(ngram_count, n_1_gram_count, args.test_corpus, args.n,
                                  get_vocabulary_size(args.training_corpus)))
     elif args.smoothing == 'gt':
-        good_turing_smoothing()
+        pprint(good_turing_smoothing(ngram_count, args.test_corpus, args.n, length_ngrams))
