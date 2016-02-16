@@ -30,9 +30,12 @@ def get_n_gram(corpus, sequence_size):
             allngrams += ngrams
             paragraph = []
 
-    return allngrams, Counter(allngrams).most_common(10)
+    return allngrams
+
 
 def insert_start_stop(corpus_filename):
+    """Opens a file and inserts a START and STOP symbol on every double+
+    new line"""
     text = open(corpus_filename, 'r').read()
     text = re.sub(r'(\n\n)+', ' 0STOP0 0START0 ', text)
     text = re.sub(r'(\n)', ' ', text)
@@ -42,23 +45,27 @@ def insert_start_stop(corpus_filename):
 
 
 def file_to_list(file):
+    """Opens a file and returns every line as a list entry"""
     text = open(file, 'r')
     return [re.sub(r'\n', '', line) for line in text]
 
 
 def condition_probability(ngrams, ngrams_1, list_of_file):
+    """Returns the conditional probability of a sequence of words from a file"""
     ngrams_counted = dict(Counter(ngrams))
     ngrams_1_counted = dict(Counter(ngrams_1))
 
     probabilities = {}
     for line in list_of_file:
         n_list = line.split()
-        n_1_list = n_list[:-1]
-        last_word = n_list[-1]
+        n_1_list = n_list[:-1]  # Removes the last word from line
+        last_word = n_list[-1]  # The word that from which the probability needs to be computed
 
+        #  Create tuples from the sequence of words because that is how the counted ngrams are stored.
         n_tuple = tuple(n_list)
         n_1_tuple = tuple(n_1_list)
 
+        #  Find the count of the ngrams
         count_n = ngrams_counted.get(n_tuple)
         count_1_n = ngrams_1_counted.get(n_1_tuple)
         if count_n and count_1_n:
@@ -68,28 +75,28 @@ def condition_probability(ngrams, ngrams_1, list_of_file):
 
 
 def sequence_probability(corpus_start_stop, list_of_file):
-    stuff = {}
+    """Returns the probability of a sentence based on a ngram model"""
+    all_probs = {}
     for line in list_of_file:
-        print(line)
-        list_of_line = line.split(' ')
-        grams_file = [list_of_line[-id:] for id, word in enumerate(list_of_line)]
+        list_of_line = line.split(' ')  # Split every sentence into a list
+        grams_file = [list_of_line[:-idx] for idx, word in enumerate(list_of_line)]  # Creates list with sentences of
+        #  n-1 words
         probabilities = []
         for grams in grams_file:
             length_of_string = len(grams)
 
-            ngrams, most_common = get_n_gram(text_start_stop, length_of_string)
-            ngrams_1, most_common_1 = get_n_gram(text_start_stop, length_of_string - 1)
+            #  Gets n grams based on the length of the current n-1 sentence
+            ngrams, _ = get_n_gram(corpus_start_stop, length_of_string)
+            ngrams_1, _ = get_n_gram(corpus_start_stop, length_of_string - 1)
             ngrams_counted = dict(Counter(ngrams))
             ngrams_1_counted = dict(Counter(ngrams_1))
 
-            stringed_grams = ' '.join(grams)
-            n_list = line.split()
-            n_1_list = n_list[:-1]
-            last_word = n_list[-1]
-
-            n_tuple = tuple(n_list)
+            #  Create tuples from the sequence of words because that is how the counted ngrams are stored.
+            n_tuple = tuple(grams)
+            n_1_list = grams[:-1]
             n_1_tuple = tuple(n_1_list)
 
+            #  Find the count of the ngrams
             count_n = ngrams_counted.get(n_tuple)
             count_1_n = ngrams_1_counted.get(n_1_tuple)
             if count_n and count_1_n:
@@ -98,8 +105,8 @@ def sequence_probability(corpus_start_stop, list_of_file):
         prob = 1
         for prob in probabilities:
             prob *= prob
-        stuff[line] = prob
-    return stuff
+        all_probs[line] = prob
+    return all_probs
 
 
 def scored_permutations(text_start_stop, words):
