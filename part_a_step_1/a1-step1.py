@@ -3,38 +3,33 @@
 # Names: Yorick de Boer, Julian Main, Amor Frans
 
 import argparse
-import re
 from collections import Counter
 from pprint import pprint
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('corpus', type=str, help='text file of corpus')
-parser.add_argument('-n', type=int, default=3, help='integer for the amount of words in sequence ')
-parser.add_argument('-m', type=int, default=10, help='integer for the amount of top frequencies')
-args = parser.parse_args()
-
-
-def find_frequencies(corpus, sequence_size, amount_of_results):
+def create_ngrams(corpus, sequence_size):
     """"Find frequencies of word sequences in a text file, returns a
     list of tuples."""
-    text = open(corpus, 'r').read().replace('\n', ' ')
-    words = re.findall(r'\w+', text)
-    sequences = []
-    for i in range(len(words) - sequence_size + 1):
-        sequences.append(' '.join(words[i:i + sequence_size]))
-    return Counter(sequences).most_common(amount_of_results)
+    with open(corpus, 'r') as corpus_txt:
+        word_list = [word for line in corpus_txt for word in line.split()]
+    ngrams = list(zip(*[word_list[i:] for i in range(sequence_size)]))
+    return ngrams
 
 
-def sum_frequencies(list_tuples):
-    """"Sum the second item of all tuples in a list of tuples"""
-    return sum(x[1] for x in list_tuples)
+def count_ngrams(ngrams_list):
+    """Returns a counted dictionary"""
+    return Counter(ngrams_list)
 
-
-def main():
-    frequency_list = (find_frequencies(args.corpus, args.n, args.m))
-    pprint(frequency_list)
-    print('The sum of the frequencies is: {0}'.format(sum_frequencies(frequency_list)))
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('corpus', type=str, help='text file of corpus')
+    parser.add_argument('-n', type=int, default=3, help='integer for the amount of words in sequence ')
+    parser.add_argument('-m', type=int, default=10, help='integer for the amount of top frequencies')
+    args = parser.parse_args()
+
+    ngrams = (count_ngrams(create_ngrams(args.corpus, args.n)))
+    mostcommon_ngrams = ngrams.most_common(args.m)
+    pprint(mostcommon_ngrams)
+
+    print('The sum of the frequencies is: {0}'.format(sum(ngrams.values())))
