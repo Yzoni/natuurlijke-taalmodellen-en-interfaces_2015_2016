@@ -7,11 +7,15 @@ from collections import Counter
 from pprint import pprint
 
 
-def create_ngrams(corpus, sequence_size):
-    """"Find frequencies of word sequences in a text file, returns a
-    list of tuples."""
+def file_to_list(corpus):
     with open(corpus, 'r') as corpus_txt:
         word_list = [word for line in corpus_txt for word in line.split()]
+    return word_list
+
+
+def create_ngrams(word_list, sequence_size):
+    """"Find frequencies of word sequences in a text file, returns a
+    list of tuples."""
     ngrams = list(zip(*[word_list[i:] for i in range(sequence_size)]))
     return ngrams
 
@@ -28,8 +32,10 @@ if __name__ == "__main__":
     parser.add_argument('-m', type=int, default=10, help='integer for the amount of top frequencies')
     args = parser.parse_args()
 
-    ngrams = (count_ngrams(create_ngrams(args.corpus, args.n)))
-    mostcommon_ngrams = ngrams.most_common(args.m)
+    list_of_words = file_to_list(args.corpus)
+    ngrams = create_ngrams(list_of_words, args.n)
+    counted_ngrams = count_ngrams(ngrams)
+    mostcommon_ngrams = counted_ngrams.most_common(args.m)
     pprint(mostcommon_ngrams)
 
-    print('The sum of the frequencies is: {0}'.format(sum(ngrams.values())))
+    print('The sum of the frequencies is: {0}'.format(sum(counted_ngrams.values())))

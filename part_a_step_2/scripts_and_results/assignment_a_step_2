@@ -1,5 +1,0 @@
-#!/bin/bash
-python3.4 a1-step2.py austen.txt -n 2 -condition_prob_file cond_file.txt
-python3.4 a1-step2.py austen.txt -n 2 -sequence_prob_file seq_file.txt
-python3.4 a1-step2.py austen.txt -scored_permutations [know, I, opinion, do, be, your, not, may, what]
-python3.4 a1-step2.py austen.txt -scored_permutations [I, do, not, know]
