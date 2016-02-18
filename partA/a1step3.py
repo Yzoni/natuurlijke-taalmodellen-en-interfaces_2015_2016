@@ -3,12 +3,7 @@ import re
 from collections import Counter
 from pprint import pprint
 
-parser = argparse.ArgumentParser()
-parser.add_argument('training_corpus', type=str, help='text file of training corpus')
-parser.add_argument('test_corpus', type=str, help='text file of test corpus')
-parser.add_argument('-n', type=int, help='value')
-parser.add_argument('-smoothing', type=str, help='smoothing algorithm', default='no')
-args = parser.parse_args()
+from a1step2 import insert_start_stop
 
 
 def get_vocabulary_size(text_filename):
@@ -16,17 +11,6 @@ def get_vocabulary_size(text_filename):
     f = open(text_filename)
     text = f.read().split()
     return len(Counter(text))
-
-
-def insert_start_stop(text_filename):
-    """Opens a file and inserts a START and STOP symbol on every double+
-    new line"""
-    text = open(text_filename, 'r').read()
-    text = re.sub(r'(\n\n)+', ' 0STOP0 0START0 ', text)
-    text = re.sub(r'(\n)', ' ', text)
-    text = '0START0' + text
-    text = text[:-9]
-    return text
 
 
 def get_n_gram_string(text_string, sequence_size):
@@ -131,6 +115,13 @@ def good_turing_smoothing(ngram_count, test_file, sequence_size, length_ngrams):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('training_corpus', type=str, help='text file of training corpus')
+    parser.add_argument('test_corpus', type=str, help='text file of test corpus')
+    parser.add_argument('-n', type=int, help='value')
+    parser.add_argument('-smoothing', type=str, help='smoothing algorithm', default='no')
+    args = parser.parse_args()
+
     text_start_stop = insert_start_stop(args.training_corpus)
     ngrams = get_n_gram_text(text_start_stop, args.n)
     length_ngrams = len(ngrams)
