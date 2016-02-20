@@ -23,8 +23,8 @@ def insert_start_stop(corpus_filename):
 
 
 def extract_sentences(text_start_stop):
-    """Extracts sentence from a text which have as delimiter a START and STOP symbol. Saves each sentence as a list
-    element. Sentence also includes the start and stop symbols."""
+    """Extracts sentences from a text which have as delimiter a START and STOP symbol. Saves each sentence as a list
+    element. Every sentence is saved as a list of words. The sentence also includes the start and stop symbols."""
     words = text_start_stop.split()
     sentences = []
     sentence = []
@@ -41,6 +41,13 @@ def create_ngrams_all_sentences(sentences, sequence_size):
     ngrams = [create_ngrams(sentence, sequence_size) for sentence in sentences]
     flattend_ngrams = list(itertools.chain(*ngrams))
     return flattend_ngrams
+
+
+def product_list(thelist):
+    prod = 1
+    for prod in thelist:
+        prod *= prod
+    return prod
 
 
 def condition_probability(ngrams, ngrams_1, cond_file):
@@ -67,11 +74,12 @@ def condition_probability(ngrams, ngrams_1, cond_file):
     return probabilities
 
 
-def sequence_probability(corpus_start_stop, list_of_file):
+def sequence_probability(corpus_start_stop, seq_file):
     """Returns the probability of a sentence based on a ngram model"""
     all_probs = {}
-    for line in list_of_file:
-        list_of_line = line.split(' ')  # Split every sentence into a list
+    seq_file_txt = open(seq_file, 'r')
+    for line in seq_file_txt:
+        list_of_line = line.split()  # Split every sentence into a list
         grams_file = [list_of_line[:-idx] for idx, word in enumerate(list_of_line)]  # Creates list with sentences of
         #  n-1 words
         probabilities = []
@@ -79,8 +87,8 @@ def sequence_probability(corpus_start_stop, list_of_file):
             length_of_string = len(grams)
 
             #  Gets n grams based on the length of the current n-1 sentence
-            ngrams, _ = create_ngrams(corpus_start_stop, length_of_string)
-            ngrams_1, _ = create_ngrams(corpus_start_stop, length_of_string - 1)
+            ngrams = create_ngrams(corpus_start_stop, length_of_string)
+            ngrams_1 = create_ngrams(corpus_start_stop, length_of_string - 1)
             ngrams_counted = dict(Counter(ngrams))
             ngrams_1_counted = dict(Counter(ngrams_1))
 
@@ -95,10 +103,7 @@ def sequence_probability(corpus_start_stop, list_of_file):
             if count_n and count_1_n:
                 prob = count_n / count_1_n
                 probabilities.append(prob)
-        prob = 1
-        for prob in probabilities:
-            prob *= prob
-        all_probs[line] = prob
+        all_probs[line] = product_list(probabilities)
     return all_probs
 
 
