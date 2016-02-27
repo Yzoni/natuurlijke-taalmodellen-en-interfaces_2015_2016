@@ -53,35 +53,45 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_sentences, sequence_size
     return probabilities
 
 
-def good_turing_smoothing(ngram_count, test_sentences, sequence_size, length_ngrams):
+def sequential_good_turing_smoothing(ngram_count, test_sentences, sequence_size, voc_size, k):
     probabilities = []
-
-    values = [ngram_count.get(key_bigram_count) for key_bigram_count in ngram_count]
-    counted_values = Counter(values)
-    pprint(counted_values)
+    nnc_counts = nc_counts(ngram_count)
 
     for sentence in test_sentences:
         paragraph_ngrams = create_ngrams(sentence, sequence_size)
 
         prob = 1
         for p_ngram in paragraph_ngrams:
-            c = ngram_count.get(p_ngram)  # Returns non if not found
-            if c is not None and c <= 5:  # assignment description says so
-                # Nc+1
-                if c is None:
-                    c = 0
-                    # Nc+1
-                    count_nc1 = counted_values.get(c + 1)
-                    prob *= count_nc1 / length_ngrams
-                else:
-                    # Nc+1
-                    count_nc1 = counted_values.get(c + 1)
-                    # Nc
-                    count_nc = counted_values.get(c)
-                    c_star = ((c + 1) * count_nc1) / count_nc
-                    prob *= c_star / length_ngrams
+            prob *= conditional_good_turing_smoothing(nnc_counts, ngram_count, p_ngram, voc_size, k)
         probabilities.append(prob)
     return probabilities
+
+
+def conditional_good_turing_smoothing(nc_counts, ngram_count, ngram_test, voc_size, k):
+    """Applies good turing smoothing to one ngram"""
+    c = ngram_count.get(ngram_test)
+    if c is None:
+        c = 0
+    ncounts_inc_zero = [voc_size ** 2 - sum(nc_counts)] + nc_counts
+    if c < k:
+        c = good_turing_function(c, ncounts_inc_zero, k)
+    return c / sum(nc_counts)
+
+
+def nc_counts(ngram_count):
+    """Creates a list of Nc counts assumes no gaps"""
+    values = [ngram_count.get(key_bigram_count) for key_bigram_count in ngram_count]
+    counted_values = list(dict(Counter(values)).values())
+    return counted_values
+
+
+def good_turing_function(r, n, k):
+    """Good Turing smoothing function"""
+    if r > 0:
+        return ((r + 1) * (float(n[r + 1]) / n[r]) - r * (float((k + 1) * n[k + 1]) / n[1])) / \
+               (1 - (float((k + 1) * n[k + 1]) / n[1]))
+    else:
+        return n[r + 1] / n[r]
 
 
 if __name__ == "__main__":
@@ -103,12 +113,12 @@ if __name__ == "__main__":
     ngram_count = dict(Counter(corpus_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(corpus_ngrams_1_all_sentences))
 
-    length_ngrams = len(corpus_ngrams_all_sentences)
+    voc_size = get_vocabulary_size(args.training_corpus)
 
     if args.smoothing == 'no':
         no_smoothing()
     elif args.smoothing == 'add1':
         pprint(add_one_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n,
-                                 get_vocabulary_size(args.training_corpus)))
+                                 voc_size))
     elif args.smoothing == 'gt':
-        pprint(good_turing_smoothing(ngram_count, args.test_corpus, args.n, length_ngrams))
+        pprint(sequential_good_turing_smoothing(ngram_count, test_extracted_sentences, args.n, voc_size, 5))
