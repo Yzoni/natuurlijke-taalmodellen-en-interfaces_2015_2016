@@ -20,6 +20,8 @@ def no_smoothing():
 
 
 def sequential_add_one_smoothing(ngram_count, n_1_gram_count, test_sentences, sequence_size, voc_size):
+    if sequence_size > 1:
+        voc_size = len(ngram_count)
     probabilities = []
     for sentence in test_sentences:
         sentence_ngrams = create_ngrams(sentence, sequence_size)
