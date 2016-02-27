@@ -45,8 +45,8 @@ def create_ngrams_all_sentences(sentences, sequence_size):
 
 def product_list(thelist):
     prod = 1
-    for prod in thelist:
-        prod *= prod
+    for operand in thelist:
+        prod *= operand
     return prod
 
 
