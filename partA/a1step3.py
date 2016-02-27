@@ -35,22 +35,25 @@ def add_one_smoothing(ngram_count, n_1_gram_count, test_sentences, sequence_size
 
         prob = 1
         for p_ngram in sentence_ngrams:
-
-            p_ngram_count = ngram_count.get(p_ngram)  # Returns non if not found
-            if p_ngram_count is None:
-                p_ngram_count = 1
-            else:
-                p_ngram_count += 1
-
-            p_n_1_gramn_count = n_1_gram_count.get(p_ngram[:-1])
-            if p_n_1_gramn_count is None:
-                p_n_1_gramn_count = voc_size
-            else:
-                p_n_1_gramn_count += voc_size
-
-            prob *= (p_ngram_count / p_n_1_gramn_count)
+            prob *= conditional_add_one_smoothing(ngram_count, n_1_gram_count, p_ngram, voc_size)
         probabilities.append(prob)
     return probabilities
+
+
+def conditional_add_one_smoothing(ngram_count, n_1_gram_count, ngram_test, voc_size):
+    p_ngram_count = ngram_count.get(ngram_test)  # Returns non if not found
+    if p_ngram_count is None:
+        p_ngram_count = 1
+    else:
+        p_ngram_count += 1
+
+    p_n_1_gramn_count = n_1_gram_count.get(ngram_test[:-1])
+    if p_n_1_gramn_count is None:
+        p_n_1_gramn_count = voc_size
+    else:
+        p_n_1_gramn_count += voc_size
+
+    return (p_ngram_count / p_n_1_gramn_count)
 
 
 def sequential_good_turing_smoothing(ngram_count, test_sentences, sequence_size, voc_size, k):
