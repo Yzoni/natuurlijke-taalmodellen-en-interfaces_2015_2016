@@ -50,27 +50,34 @@ def product_list(thelist):
     return prod
 
 
-def condition_probability(ngrams, ngrams_1, cond_file):
+def conditional_probability(ngram_count, ngram_1_count, ngram_test):
     """Returns the conditional probability of a sequence of words from a file"""
-    ngrams_counted = dict(Counter(ngrams))
-    ngrams_1_counted = dict(Counter(ngrams_1))
+    n_1_gram = ngram_test[:-1]  # Removes the last word from line
+
+    #  Create tuples from the sequence of words because that is how the counted ngrams are stored.
+    n_tuple = tuple(ngram_test)
+    n_1_tuple = tuple(n_1_gram)
+
+    #  Find the count of the ngrams
+    count_n = ngram_count.get(n_tuple)
+    count_1_n = ngram_1_count.get(n_1_tuple)
+    if count_n and count_1_n:
+        prob = count_n / count_1_n
+    else:
+        prob = 0
+    return prob
+
+
+def file_condition_probability(ngrams, ngrams_1, cond_file):
+    """Returns the conditional probability of a sequence of words from a file"""
+    ngram_count = dict(Counter(ngrams))
+    ngram_1_count = dict(Counter(ngrams_1))
     probabilities = {}
     cond_file_txt = open(cond_file, 'r')
     for line in cond_file_txt:
-        n_list = line.split()
-        n_1_list = n_list[:-1]  # Removes the last word from line
-        last_word = n_list[-1]  # The word from which the probability needs to be computed
-
-        #  Create tuples from the sequence of words because that is how the counted ngrams are stored.
-        n_tuple = tuple(n_list)
-        n_1_tuple = tuple(n_1_list)
-
-        #  Find the count of the ngrams
-        count_n = ngrams_counted.get(n_tuple)
-        count_1_n = ngrams_1_counted.get(n_1_tuple)
-        if count_n and count_1_n:
-            prob = count_n / count_1_n
-            probabilities[last_word] = prob
+        n_gram_test = line.split()
+        prob = conditional_probability(ngram_count, ngram_1_count, n_gram_test)
+        probabilities['P(' + str(n_gram_test[-1:]) + '|' + str(n_gram_test[:-1]) + ')'] = prob
     return probabilities
 
 
@@ -129,7 +136,7 @@ if __name__ == "__main__":
     print('\n')
     if args.conditional_prob_file:
         print('Conditional probability:')
-        pprint(condition_probability(ngrams_all_sentences, ngrams_1_all_sentences, args.conditional_prob_file))
+        pprint(file_condition_probability(ngrams_all_sentences, ngrams_1_all_sentences, args.conditional_prob_file))
     if args.sequence_prob_file:
         print('Sequential probability')
         pprint(sequence_probability(text_start_stop, args.sequence_prob_file))
