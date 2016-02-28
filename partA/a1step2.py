@@ -77,7 +77,7 @@ def file_condition_probability(ngrams, ngrams_1, cond_file):
     for line in cond_file_txt:
         n_gram_test = line.split()
         prob = conditional_probability(ngram_count, ngram_1_count, n_gram_test)
-        probabilities['P(' + str(n_gram_test[-1:]) + '|' + str(n_gram_test) + ')'] = prob
+        probabilities['P(' + str(n_gram_test[-1:]) + '|' + str(n_gram_test[:-1]) + ')'] = prob
     return probabilities
 
 
