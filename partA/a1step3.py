@@ -3,6 +3,7 @@ from collections import Counter
 from pprint import pprint
 
 from a1step1 import create_ngrams
+from a1step2 import conditional_probability
 from a1step2 import create_ngrams_all_sentences
 from a1step2 import extract_sentences
 from a1step2 import insert_start_stop
@@ -15,8 +16,16 @@ def get_vocabulary_size(text_filename):
     return len(Counter(text))
 
 
-def no_smoothing():
-    return -1
+def sequential_no_smoothing(ngram_count, n_1_gram_count, test_sentences, sequence_size):
+    probabilities = []
+    for sentence in test_sentences:
+        sentence_ngrams = create_ngrams(sentence, sequence_size)
+
+        prob = 1
+        for p_ngram in sentence_ngrams:
+            prob *= conditional_probability(ngram_count, n_1_gram_count, p_ngram)
+        probabilities.append(prob)
+    return probabilities
 
 
 def sequential_add_one_smoothing(ngram_count, n_1_gram_count, test_sentences, sequence_size, voc_size):
