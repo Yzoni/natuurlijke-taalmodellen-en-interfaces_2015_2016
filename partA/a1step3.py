@@ -50,6 +50,7 @@ def conditional_add_one_smoothing(ngram_count, n_1_gram_count, ngram_test, voc_s
 
 
 def sequential_good_turing_smoothing(ngram_count, ngram_1_count, test_sentences, sequence_size, voc_size, k):
+    """Good turing smoothed probability of a whole sentence"""
     probabilities = []
     nnc_counts = nc_counts(ngram_count)
 
@@ -63,11 +64,11 @@ def sequential_good_turing_smoothing(ngram_count, ngram_1_count, test_sentences,
     return probabilities
 
 
-def conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, p_ngram, voc_size, k):
+def conditional_good_turing_smoothing(nc_counts, ngram_count, ngram_1_count, test_ngram, voc_size, k):
     """Gets the good turing smoothed count from one ngram"""
-    cgt = good_turing_count(nnc_counts, ngram_count, p_ngram, voc_size, k)
-    c_n_1 = ngram_1_count.get(p_ngram[:-1])
-    if c_n_1 is None:
+    cgt = good_turing_count(nc_counts, ngram_count, test_ngram, voc_size, k)
+    c_n_1 = ngram_1_count.get(test_ngram[:-1])
+    if c_n_1 is None:  # if n-1 gram could not be found probability is zero
         return 0
     return cgt / c_n_1
 
