@@ -19,7 +19,7 @@ def no_smoothing():
     return -1
 
 
-def add_one_smoothing(ngram_count, n_1_gram_count, test_sentences, sequence_size, voc_size):
+def sequential_add_one_smoothing(ngram_count, n_1_gram_count, test_sentences, sequence_size, voc_size):
     probabilities = []
     for sentence in test_sentences:
         sentence_ngrams = create_ngrams(sentence, sequence_size)
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     if args.smoothing == 'no':
         no_smoothing()
     elif args.smoothing == 'add1':
-        pprint(add_one_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n, voc_size))
+        pprint(sequential_add_one_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n, voc_size))
     elif args.smoothing == 'gt':
         pprint(sequential_good_turing_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n, voc_size,
                                                 5))
