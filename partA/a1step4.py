@@ -105,3 +105,4 @@ if __name__ == "__main__":
     start_probability = dict(Counter(flattened_sentences_pos))
 #    transition_probability = {}
 #    emission_probability = {}
+    best_probabilities = viterbi(observations, states, start_probability, transition_probability, emission_probability)
