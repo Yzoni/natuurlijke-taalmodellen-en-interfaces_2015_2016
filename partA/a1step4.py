@@ -49,30 +49,34 @@ def emission_model():
     return -1
 
 
-def viterbi(sentences_training, sentences_test):
-    """
-     Implementation of the viterbi algorithm.
-    :param sentences_test: pos tagged sentences with start/stop symbols 
-    from testset
-    :param sentences_training: pos tagged sentences with start/stop symbols
-    from trainingset
-    """
-    
-    # transition_matrix[(a_i, a_j)]=probability of transitioning from a_i to a_j
-    # In this case: the probability that tag a_j follow tag a_i
-    transition_matrix = {}
-    
-    # output_matrix[(b_i, o_j)]=prob of emitting o_j from b_i
-    # In this case: the probability that tag b_i emits tag o_j
-    output_matrix = {}
+def viterbi(obs, states, start_p, trans_p, emit_p):
+    V = [{}]
+    for i in states:
+        V[0][i]=start_p[i]*emit_p[i][obs[0]]
+    # Run Viterbi when t > 0
+    for t in range(1, len(obs)):
+        V.append({})
+        for y in states:
+            (prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0) for y0 in states)
+            V[t][y] = prob
+    for i in dptable(V):
+        print(i)
+    opt=[]
+    for j in V:
+        for x, y in j.items():
+            if j[x] == max(j.values()):
+                opt.append(x)
+    # the highest probability
+    h = max(V[-1].values())
+    print('The steps of states are '+' '.join(opt)+' with highest probability of %s'%h)
+    return V
 
-    # best_paths[sentence] = best sequence of tags for sentence
-    best_paths = {}
 
-    for sentence in sentences:
-        #calculate best_path for sentence
-        pass
-    return best_paths
+# it prints a table of steps from dictionary
+def dptable(V):
+    yield " ".join(("%10d" % i) for i in range(len(V)))
+    for y in V[0]:
+        yield "%.7s: " % y+" ".join("%.7s" % ("%f" % v[y]) for v in V)
 
 
 if __name__ == "__main__":
@@ -89,10 +93,15 @@ if __name__ == "__main__":
     sentences_pos = extract_pos_sentences(word_pos_sentences)
     start_stop_sentences_pos = insert_start_stop_list(sentences_pos)
 
-    best_paths = viterbi(start_stop_sentences_pos)
-    
     trainset_ngrams_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2)
     trainset_ngrams_1_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2 - 1)
 
     ngram_count = dict(Counter(trainset_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))
+
+    flattened_sentences_pos = [pos for sentences in sentences_pos for pos in sentences]
+    states = set(flattened_sentences_pos)
+    #    observations = list_of_words
+    start_probability = dict(Counter(flattened_sentences_pos))
+#    transition_probability = {}
+#    emission_probability = {}
