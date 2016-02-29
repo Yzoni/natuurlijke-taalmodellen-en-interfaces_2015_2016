@@ -149,7 +149,7 @@ if __name__ == "__main__":
     voc_size = get_vocabulary_size(args.training_corpus)
 
     if args.smoothing == 'no':
-        no_smoothing()
+        pprint(sequential_no_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n))
     elif args.smoothing == 'add1':
         pprint(sequential_add_one_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n, voc_size))
     elif args.smoothing == 'gt':
