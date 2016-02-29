@@ -35,6 +35,13 @@ def extract_pos_sentences(word_pos_sentences):
     return sentences_pos
 
 
+def extract_word_sentences(word_pos_sentences):
+    sentences = []
+    for sentence in word_pos_sentences:
+        sentences.append([p for pos in sentence for p in pos])
+    return sentences
+
+
 def insert_start_stop_list(sentences_pos):
     for sentence in sentences_pos:
         sentence.insert(0, '0START0')
@@ -42,22 +49,30 @@ def insert_start_stop_list(sentences_pos):
     return sentences_pos
 
 
-def transition_model(ngram_count, ngram_1_count, sentences, voc_size, smoothing='yes', k):
+def transition_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothing='yes'):
     if smoothing == 'yes':
         nnc_counts = nc_counts(ngram_count)
         return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
     else:
         for sentence in sentences:
         # TODO SET IN dict
-        conditional_probability(ngram_count, ngram_1_count, )
+        #conditional_probability(ngram_count, ngram_1_count, )
+            pass
 
 
-def emission_model():
-    return -1
+def emission_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothing = 'yes'):
+    if smoothing == 'yes':
+        nnc_counts = nc_counts(ngram_count)
+        return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
+    else:
+        # create dict with now smoothing
+        pass
+        return -1
 
 
 def viterbi(obs, states, start_p, trans_p, emit_p):
     V = [{}]
+    opt = []
     for i in states:
         V[0][i]=start_p[i]*emit_p[i][obs[0]]
     # Run Viterbi when t > 0
@@ -76,20 +91,6 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
     return V
 
 
-def get_emission_prob(word_pos_sentences):
-    e_prob = {}
-    flattened = [tuple(pos_tagged) for sentence in word_pos_sentences for
-                 pos_tagged in sentence]
-    counted_flattened = Counter(flattened)
-
-    words = [w[0] for sentence in word_pos_sentences for
-             w in sentence]
-    counted_words = Counter(words)
-    for pos_tagged in counted_flattened:
-        e_prob[pos_tagged] = counted_flattened[pos_tagged] / counted_words[pos_tagged[0]]
-    return e_prob
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-smoothing', type=str, help='yes|no', default='yes')
@@ -102,27 +103,21 @@ if __name__ == "__main__":
         word_pos_sentences = parse_pos_file(f)
 
     sentences_pos = extract_pos_sentences(word_pos_sentences)
+    sentences_word_pos = extract_word_sentences(word_pos_sentences)
+
     start_stop_sentences_pos = insert_start_stop_list(sentences_pos)
+    start_stop_sentences_word_pos = insert_start_stop_list(sentences_word_pos)
+
+    n_grams_word_pos_1 = create_ngrams_all_sentences(word_pos_sentences, 1)
 
     trainset_ngrams_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2)
     trainset_ngrams_1_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2 - 1)
 
+    trainset_n_grams_word_pos = create_ngrams_all_sentences(start_stop_sentences_word_pos, 2)
+    trainset_n_grams_word_pos_1 = create_ngrams_all_sentences(start_stop_sentences_word_pos, 1)
+    
     ngram_count = dict(Counter(trainset_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))
 
-
-    flattened_sentences_pos = [pos for sentences in sentences_pos for pos in sentences]
-    states = set(flattened_sentences_pos)
-
-    flattened_sentences = set([i for sentence in word_pos_sentences for
-                           tagged_word in sentence for i in tagged_word])
-    observations = set([word for word in flattened_sentences if word
-                         not in states])
-
-    start_probability = dict(Counter(flattened_sentences_pos))
-    transition_probability = get_trans_prob(ngram_count, n_1_gram_count)
-    emission_probability = get_emission_prob(word_pos_sentences)
-
-    best_probabilities = viterbi(observations, states, start_probability, transition_probability, emission_probability)
-    #v = viterbi(observations, states, start_probability, transition_probability, emission_probability)
-    #print(v)
+    ngram_count_word_pos = dict(Counter(trainset_n_grams_word_pos)) 
+    ngram_count_word_pos_1 = dict(Counter(trainset_n_grams_word_pos_1))
