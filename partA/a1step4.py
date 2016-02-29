@@ -3,13 +3,16 @@ import gzip
 import re
 from collections import Counter
 
-from a1step2 import conditional_probability
 from a1step2 import create_ngrams_all_sentences
 from a1step3 import conditional_good_turing_smoothing
 from a1step3 import nc_counts
 
 
 def parse_pos_file(file_stream):
+    """Parser for POS file returns sentences excludes symbols
+    :param file_stream file stream
+    :return: [[['No', 'RB'], ['it', 'PRP'], ['was', 'VBD'],.....
+    """
     sentences = []
     sentence = []
     for line in file_stream.readlines():
@@ -29,6 +32,10 @@ def parse_pos_file(file_stream):
 
 
 def extract_pos_sentences(word_pos_sentences):
+    """ Returns sentences of POS tags
+    :param word_pos_sentences: [[['No', 'RB'], ['it', 'PRP'], ['was', 'VBD'],.....
+    :return: [['RB', 'PRP', 'VBD', 'RB', 'NNP', 'NNP'], ['CC', 'IN',.....
+    """
     sentences_pos = []
     for sentence in word_pos_sentences:
         sentences_pos.append([pos[1] for pos in sentence])
@@ -43,6 +50,7 @@ def extract_word_sentences(word_pos_sentences):
 
 
 def insert_start_stop_list(sentences_pos):
+    """Adds start stop symbols to sentences in the form of a list"""
     for sentence in sentences_pos:
         sentence.insert(0, '0START0')
         sentence.append('0STOP0')
