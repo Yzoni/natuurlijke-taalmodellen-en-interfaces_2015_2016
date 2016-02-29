@@ -3,8 +3,10 @@ import gzip
 import re
 from collections import Counter
 
+from a1step2 import conditional_probability
 from a1step2 import create_ngrams_all_sentences
 from a1step3 import conditional_good_turing_smoothing
+from a1step3 import nc_counts
 
 
 def parse_pos_file(file_stream):
@@ -40,11 +42,14 @@ def insert_start_stop_list(sentences_pos):
     return sentences_pos
 
 
-def transition_model(ngram_count, ngram_1_count, smoothing='yes'):
+def transition_model(ngram_count, ngram_1_count, sentences, voc_size, smoothing='yes', k):
     if smoothing == 'yes':
-        conditional_good_turing_smoothing()
+        nnc_counts = nc_counts(ngram_count)
+        return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
     else:
-        -1
+        for sentence in sentences:
+        # TODO SET IN dict
+        conditional_probability(ngram_count, ngram_1_count, )
 
 
 def emission_model():
@@ -70,12 +75,6 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
 
     return V
 
-
-def get_trans_prob(ngram_count, n_1_gram_count):
-    trans_prob = {}
-    for ngram in ngram_count:
-        trans_prob[ngram] = ngram_count.get(ngram) / n_1_gram_count[(ngram[0],)]
-    return trans_prob
 
 def get_emission_prob(word_pos_sentences):
     e_prob = {}

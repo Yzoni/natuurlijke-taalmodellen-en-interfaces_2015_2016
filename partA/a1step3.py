@@ -62,29 +62,47 @@ def sequential_good_turing_smoothing(ngram_count, ngram_1_count, test_sentences,
     """Good turing smoothed probability of a whole sentence"""
     probabilities = []
     nnc_counts = nc_counts(ngram_count)
-
+    smoothed_gt_ngrams = conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
     for sentence in test_sentences:
         paragraph_ngrams = create_ngrams(sentence, sequence_size)
 
         prob = 1
         for p_ngram in paragraph_ngrams:
-            prob *= conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, p_ngram, voc_size, k)
+            # find ngram in dict P(x|y)
+            y = p_ngram[:-1]
+            x = p_ngram[-1]
+
+            xdict = smoothed_gt_ngrams.get(y[0])
+            if xdict is not None:
+                ss = xdict.get(x[0])
+                if ss is not None:
+                    prob *= ss
+                else:
+                    prob = 0
+            else:
+                prob = 0
         probabilities.append(prob)
     return probabilities
 
 
-def conditional_good_turing_smoothing(nc_counts, ngram_count, ngram_1_count, test_ngram, voc_size, k):
+def conditional_good_turing_smoothing(nc_counts, ngram_count, ngram_1_count, voc_size, k):
     """Gets the good turing smoothed count from one ngram"""
-    cgt = good_turing_count(nc_counts, ngram_count, test_ngram, voc_size, k)
-    c_n_1 = ngram_1_count.get(test_ngram[:-1])
-    if c_n_1 is None:  # if n-1 gram could not be found probability is zero
-        return 0
-    return cgt / c_n_1
+    cond_probs = {}
+    for ngram in ngram_count:
+        cgt = good_turing_count(nc_counts, ngram_count, ngram, voc_size, k)
+        count_n_1_gram = ngram_1_count.get(ngram[:-1])
+        if count_n_1_gram is None:  # if n-1 gram could not be found probability is zero
+            cond_probs[ngram] = 0
+        else:
+            if ngram[0] not in cond_probs:
+                cond_probs[ngram[0]] = {}
+            cond_probs[ngram[0]][ngram[1]] = cgt / count_n_1_gram
+    return cond_probs
 
 
-def good_turing_count(nc_counts, ngram_count, ngram_test, voc_size, k):
+def good_turing_count(nc_counts, ngram_count, one_ngram, voc_size, k):
     """Gets the good turing smoothed count from one ngram"""
-    c = ngram_count.get(ngram_test)
+    c = ngram_count.get(one_ngram)
     if c is None:
         c = 0
     ncounts_inc_zero = [voc_size ** 2 - sum(nc_counts)] + nc_counts
