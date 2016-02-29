@@ -59,24 +59,34 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
         for y in states:
             (prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0) for y0 in states)
             V[t][y] = prob
-    for i in dptable(V):
-        print(i)
-    opt=[]
     for j in V:
         for x, y in j.items():
             if j[x] == max(j.values()):
                 opt.append(x)
     # the highest probability
     h = max(V[-1].values())
-    print('The steps of states are '+' '.join(opt)+' with highest probability of %s'%h)
+
     return V
 
 
-# it prints a table of steps from dictionary
-def dptable(V):
-    yield " ".join(("%10d" % i) for i in range(len(V)))
-    for y in V[0]:
-        yield "%.7s: " % y+" ".join("%.7s" % ("%f" % v[y]) for v in V)
+def get_trans_prob(ngram_count, n_1_gram_count):
+    trans_prob = {}
+    for ngram in ngram_count:
+        trans_prob[ngram] = ngram_count.get(ngram) / n_1_gram_count[(ngram[0],)]
+    return trans_prob
+
+def get_emission_prob(word_pos_sentences):
+    e_prob = {}
+    flattened = [tuple(pos_tagged) for sentence in word_pos_sentences for
+                 pos_tagged in sentence]
+    counted_flattened = Counter(flattened)
+
+    words = [w[0] for sentence in word_pos_sentences for
+             w in sentence]
+    counted_words = Counter(words)
+    for pos_tagged in counted_flattened:
+        e_prob[pos_tagged] = counted_flattened[pos_tagged] / counted_words[pos_tagged[0]]
+    return e_prob
 
 
 if __name__ == "__main__":
@@ -99,10 +109,19 @@ if __name__ == "__main__":
     ngram_count = dict(Counter(trainset_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))
 
+
     flattened_sentences_pos = [pos for sentences in sentences_pos for pos in sentences]
     states = set(flattened_sentences_pos)
-    #    observations = list_of_words
+
+    flattened_sentences = set([i for sentence in word_pos_sentences for
+                           tagged_word in sentence for i in tagged_word])
+    observations = set([word for word in flattened_sentences if word
+                         not in states])
+
     start_probability = dict(Counter(flattened_sentences_pos))
-#    transition_probability = {}
-#    emission_probability = {}
+    transition_probability = get_trans_prob(ngram_count, n_1_gram_count)
+    emission_probability = get_emission_prob(word_pos_sentences)
+
     best_probabilities = viterbi(observations, states, start_probability, transition_probability, emission_probability)
+    #v = viterbi(observations, states, start_probability, transition_probability, emission_probability)
+    #print(v)
