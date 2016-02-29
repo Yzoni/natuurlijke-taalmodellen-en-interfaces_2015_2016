@@ -14,6 +14,8 @@ def parse_pos_file(file_stream):
         dline = line.decode("utf-8")
         dline_split = dline.split()
         for word in dline_split:
+            if re.fullmatch('``/``', word):
+                continue
             if re.fullmatch('([a-zA-z]|\')+/[a-zA-z]+', word):
                 word_tag = word.split('/')
                 sentence.append(word_tag)
