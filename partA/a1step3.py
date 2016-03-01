@@ -152,7 +152,9 @@ if __name__ == "__main__":
     if args.smoothing == 'no':
         pprint(sequential_no_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n))
     elif args.smoothing == 'add1':
-        pprint(sequential_add_one_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n, voc_size))
+        pprint(sequential_add_one_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n,
+                                            all_possible_ngram_count))
     elif args.smoothing == 'gt':
-        pprint(sequential_good_turing_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n, voc_size,
+        pprint(sequential_good_turing_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n,
+                                                all_possible_ngram_count,
                                                 5))
