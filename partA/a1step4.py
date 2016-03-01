@@ -7,7 +7,7 @@ from pprint import pprint
 
 from a1step2 import create_ngrams_all_sentences
 from a1step3 import conditional_good_turing_smoothing
-from a1step3 import get_vocabulary_size
+from a1step3 import get_all_possible_ngram_count
 from a1step3 import nc_counts
 
 
@@ -22,7 +22,7 @@ def parse_pos_file(file_stream):
         dline = line.decode("utf-8")
         dline_split = dline.split()
         for word in dline_split:
-            if re.fullmatch('``/``', word):
+            if re.fullmatch('``\``', word):
                 continue
             if re.fullmatch('([a-zA-z]|\')+/[a-zA-z]+', word):
                 word_tag = word.split('/')
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     parser.add_argument('-test_set_predicted', type=str, help='path to test set predicted')
     args = parser.parse_args()
 
-    voc_size = get_vocabulary_size(args.test_set)
+    all_possible_ngram_count = get_all_possible_ngram_count(args.test_set, 2)
 
     with gzip.open(args.train_set, 'rb') as f:
         word_pos_sentences = parse_pos_file(f)
@@ -140,16 +140,16 @@ if __name__ == "__main__":
     ngram_count = dict(Counter(trainset_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))
 
-    pprint(transition_model(ngram_count, n_1_gram_count, [], voc_size, 4, smoothing='yes'))
+    pprint(transition_model(ngram_count, n_1_gram_count, [], all_possible_ngram_count, 4, smoothing='yes'))
 
     # EMISSION MODEL
     # Get count for (POSTAG, WORD)
     flattened_word_pos_sentences = list(itertools.chain(*word_pos_sentences))
     word_pos_tuples = [tuple(l) for l in flattened_word_pos_sentences]
+    pos_word_count = dict(Counter(word_pos_tuples))
+
     # Get count for (POSTAG)
     only_pos = extract_pos(word_pos_sentences)
-
-    pos_word_count = dict(Counter(word_pos_tuples))
     pos_count = dict(Counter(only_pos))
 
-    pprint(emission_model(pos_word_count, pos_count, [], voc_size, 1, smoothing='yes'))
+    pprint(emission_model(pos_word_count, pos_count, [], all_possible_ngram_count, 1, smoothing='yes'))

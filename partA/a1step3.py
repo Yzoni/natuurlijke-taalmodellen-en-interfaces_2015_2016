@@ -1,4 +1,5 @@
 import argparse
+import itertools
 from collections import Counter
 from pprint import pprint
 
@@ -9,11 +10,11 @@ from a1step2 import extract_sentences
 from a1step2 import insert_start_stop
 
 
-def get_vocabulary_size(text_filename):
+def get_all_possible_ngram_count(list_sentences, n):
     """Returns the amount of words in a text file"""
-    f = open(text_filename)
-    text = f.read().split()
-    return len(Counter(text))
+    flattened_sentences = itertools.chain(*list_sentences)
+    unique_words = list(set(flattened_sentences))
+    return len(unique_words) ** n
 
 
 def sequential_no_smoothing(ngram_count, n_1_gram_count, test_sentences, sequence_size):
@@ -100,12 +101,12 @@ def conditional_good_turing_smoothing(nc_counts, ngram_count, ngram_1_count, voc
     return cond_probs
 
 
-def good_turing_count(nc_counts, ngram_count, one_ngram, voc_size, k):
+def good_turing_count(nc_counts, ngram_count, one_ngram, all_possible_ngramcount, k):
     """Gets the good turing smoothed count from one ngram"""
     c = ngram_count.get(one_ngram)
     if c is None:
         c = 0
-    ncounts_inc_zero = [voc_size ** 2 - sum(nc_counts)] + nc_counts
+    ncounts_inc_zero = [all_possible_ngramcount - sum(nc_counts)] + nc_counts
     return good_turing_function(c, ncounts_inc_zero, k)
 
 
@@ -146,7 +147,7 @@ if __name__ == "__main__":
     ngram_count = dict(Counter(corpus_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(corpus_ngrams_1_all_sentences))
 
-    voc_size = get_vocabulary_size(args.training_corpus)
+    all_possible_ngram_count = get_all_possible_ngram_count(test_extracted_sentences, n)
 
     if args.smoothing == 'no':
         pprint(sequential_no_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n))
