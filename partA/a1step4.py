@@ -3,6 +3,7 @@ import gzip
 import itertools
 import re
 from collections import Counter
+from pprint import pprint
 
 from a1step2 import create_ngrams_all_sentences
 from a1step3 import conditional_good_turing_smoothing
@@ -101,26 +102,86 @@ def emission_model(pos_word_count, pos_count, sentences, voc_size, k, smoothing=
         return -1
 
 
-def viterbi(obs, states, start_p, trans_p, emit_p):
-    V = [{}]
-    opt = []
-    for i in states:
-        V[0][i]=start_p[i]*emit_p[i][obs[0]]
-    # Run Viterbi when t > 0
-    for t in range(1, len(obs)):
-        V.append({})
-        for y in states:
-            (prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0) for y0 in states)
-            V[t][y] = prob
-    for j in V:
-        for x, y in j.items():
-            if j[x] == max(j.values()):
-                opt.append(x)
-    # the highest probability
-    h = max(V[-1].values())
+def get_value_nested_dict(dictionary, column, row):
+    column = dictionary.get(column)
+    if column is None:
+        return 0
+    else:
+        row = column.get(row)
+        if row is None:
+            return 0
+        else:
+            return row
 
-    return V
 
+def viterbi(sentence, postags, trans_p, emit_p):
+    # init matrix
+    viterbi_matrix = numpy.zeros((len(sentence) - 2, len(sentence) - 2))
+
+    for word in sentence:
+        j = 0
+        for j in range(j, len(sentence)):
+            t = 0
+        t += 1
+        i = 0
+        for postagi in postags:
+            i += 1
+            trans_i = trans_p.get(postagi)
+            emit_tag = emit_p.get(postagi)
+            emit_prob = emit_tag.get(word)
+            max_ = []
+
+            for postagj in postags:
+                trans_temp = trans_p.get(postagj)
+                trans_j = trans_temp(postagi)
+
+                previous_state = viterbi_matrix[i][t - 1]
+
+                temp = previous_state * trans_j * emit_prob
+                max_.append(temp)
+
+            max_prob = max(max_)
+            V[j][t] = (prob, (max_.index(max_prob))
+
+            # start
+            if trans is None:
+                V[0][postag] = 0
+            else:
+                emmision_word_dict = emit_p.get(postag)
+            if emmision_word_dict is None:
+                V[0][postag] = 0
+            else:
+                emmision_prob = emmision_word_dict.get(word)
+            if emmision_prob is None:
+                V[0][postag] = 0
+            else:
+                V[0][postag] = trans * emmision_prob
+
+            pprint(V)
+
+            """
+            for i in states:
+                prob = start_p.get(i)
+                if prob is None:
+                    V[0][i] = 0
+                else:
+                    V[0][i] = prob
+            pprint(V)
+            # Run Viterbi when t > 0
+            for t in range(1, len(obs)):
+                V.append({})
+                for y in states:
+                    (prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0) for y0 in states)
+                    V[t][y] = prob
+            for j in V:
+                for x, y in j.items():
+                    if j[x] == max(j.values()):
+                        opt.append(x)
+            # the highest probability
+            h = max(V[-1].values())
+
+            return V
+        """
 
 def sentence_no_pos(word_pos_sentences, pos_list):
     sentence_words = []
@@ -143,9 +204,10 @@ if __name__ == "__main__":
     with gzip.open(args.train_set, 'rb') as f:
         word_pos_sentences = parse_pos_file(f)
 
+    # OBSERVATIONS
     sentences_pos = extract_pos_sentences(word_pos_sentences)
     pos_list = list(set(pos for sentence in sentences_pos for pos in sentence))
-    sentences_no_pos = sentence_no_pos(word_pos_sentences, pos_list)
+    all_observations = sentence_no_pos(word_pos_sentences, pos_list)
 
     # TRANSITION MODEL
     sentences_word_pos = extract_pos_sentences(word_pos_sentences)
@@ -169,3 +231,9 @@ if __name__ == "__main__":
     # CREATE MODELS
     trans_model = transition_model(ngram_count, n_1_gram_count, [], all_possible_ngram_count, 4, smoothing='yes')
     emiss_model = emission_model(pos_word_count, pos_count, [], all_possible_ngram_count, 1, smoothing='yes')
+
+    # CREATE START TRANSITION FROM TRANSITION MODEL
+    start_model = trans_model.get('0START0')
+
+    for observation in all_observations:
+        pprint(viterbi(tuple(observation), tuple(pos_list), trans_model, emiss_model))
