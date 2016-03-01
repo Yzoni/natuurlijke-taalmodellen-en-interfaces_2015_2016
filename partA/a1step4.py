@@ -64,8 +64,9 @@ def insert_start_stop_list(sentences_pos):
     return sentences_pos
 
 
-def transition_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothing='yes'):
+def model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothing='yes'):
     """
+    Transition and emission model
     :param ngram_count: {('RBR', 'IN'): 23, ('JJS', 'CD'): 5,...
     :param ngram_1_count: {('NNS',): 3458, ('JJR',): 193, ('VBN',): 1096,...
     :param sentences: sentences for no smoothing
@@ -79,26 +80,22 @@ def transition_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothi
         return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
     else:
         for sentence in sentences:
-        # TODO SET IN dict
-        #conditional_probability(ngram_count, ngram_1_count, )
-            pass
+            return conditional_no_smoothing(ngram_count, n_1_gram_count)
 
 
-def emission_model(pos_word_count, pos_count, sentences, voc_size, k, smoothing='yes'):
-    """
-    :param pos_word_count: {('racial', 'JJ'): 2, ('portables', 'NNS'): 3,....
-    :param pos_count: {'POS': 551, 'RP': 177, 'DT': 4819, 'IN': 5862,...
-    :param k: only smooth for c < k
-    :param smoothing: yes | no
-    :return:
-    """
-    if smoothing == 'yes':
-        nnc_counts = nc_counts(pos_word_count)
-        return conditional_good_turing_smoothing(nnc_counts, pos_word_count, pos_count, voc_size, k)
-    else:
-        # create dict with now smoothing
-        pass
-        return -1
+def conditional_no_smoothing(ngram_count, ngram_1_count):
+    """Gets the good turing smoothed count from one ngram"""
+    cond_probs = {}
+    for ngram in ngram_count:
+        count_n_1_gram = ngram_1_count.get(ngram[:-1])
+        if count_n_1_gram is None:  # if n-1 gram could not be found probability is zero
+            cond_probs[ngram] = 0
+        else:
+            if ngram[0] not in cond_probs:
+                cond_probs[ngram[0]] = {}
+            cond_probs[ngram[0]][ngram[1]] = ngram_count[ngram] / count_n_1_gram
+    return cond_probs
+
 
 
 def viterbi(obs, states, start_p, trans_p, emit_p):
