@@ -102,20 +102,24 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
     V = [{}]
     opt = []
     for i in states:
-        V[0][i]=start_p[i]*emit_p[i][obs[0]]
+        if emit_p[i].get(obs[0]) is not None:
+            V[0][i]=start_p[i]*emit_p[i][obs[0]]
     # Run Viterbi when t > 0
+    counter=0
     for t in range(1, len(obs)):
         V.append({})
         for y in states:
-            (prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0) for y0 in states)
-            V[t][y] = prob
+           for y0 in states:
+               if trans_p.get(y0) is not None and trans_p[y0].get(y) is not None and emit_p.get(y) is not None and emit_p[y].get(obs[t]) is not None and V[t-1].get(y0) is not None:
+                   (Prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0))
+                   V[t][y] = prob
     for j in V:
         for x, y in j.items():
             if j[x] == max(j.values()):
                 opt.append(x)
     # the highest probability
-    h = max(V[-1].values())
 
+    h = max(V[-1].values())
     return V
 
 
@@ -164,5 +168,7 @@ if __name__ == "__main__":
     pos_count = dict(Counter(only_pos))
 
     # CREATE MODELS
-    trans_model = transition_model(ngram_count, n_1_gram_count, [], all_possible_ngram_count, 4, smoothing='yes')
-    emiss_model = emission_model(pos_word_count, pos_count, [], all_possible_ngram_count, 1, smoothing='yes')
+    trans_model = model(ngram_count, n_1_gram_count, [], all_possible_ngram_count, 4, smoothing='yes')
+    emiss_model = model(pos_word_count, pos_count, [], all_possible_ngram_count, 1, smoothing='yes')
+
+    print(viterbi(tuple(sentences_no_pos[0]), tuple(pos_list), trans_model.get("0START0"), trans_model, emiss_model))
