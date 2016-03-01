@@ -99,6 +99,14 @@ def viterbi(obs, states, start_p, trans_p, emit_p):
     return V
 
 
+def sentence_no_pos(word_pos_sentences, pos_list):
+    sentence_words = []
+    for sentence in word_pos_sentences:
+        sentence_words.append([word for bigram in sentence for word in bigram
+                               if word not in list(pos_list)])
+    sentence_words = insert_start_stop_list(sentence_words)
+    return sentence_words
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-smoothing', type=str, help='yes|no', default='yes')
@@ -111,21 +119,27 @@ if __name__ == "__main__":
         word_pos_sentences = parse_pos_file(f)
 
     sentences_pos = extract_pos_sentences(word_pos_sentences)
+
+    pos_list = list(set(pos for sentence in sentences_pos for pos in sentence))
+    sentences_no_pos = sentence_no_pos(word_pos_sentences, pos_list)
+    
     sentences_word_pos = extract_word_sentences(word_pos_sentences)
 
     start_stop_sentences_pos = insert_start_stop_list(sentences_pos)
     start_stop_sentences_word_pos = insert_start_stop_list(sentences_word_pos)
 
     n_grams_word_pos_1 = create_ngrams_all_sentences(word_pos_sentences, 1)
-
+    n_grams_word_pos = create_ngrams_all_sentences(word_pos_sentences, 2)
+    
     trainset_ngrams_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2)
     trainset_ngrams_1_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2 - 1)
 
     trainset_n_grams_word_pos = create_ngrams_all_sentences(start_stop_sentences_word_pos, 2)
     trainset_n_grams_word_pos_1 = create_ngrams_all_sentences(start_stop_sentences_word_pos, 1)
-    
+
+
     ngram_count = dict(Counter(trainset_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))
 
-    ngram_count_word_pos = dict(Counter(trainset_n_grams_word_pos)) 
+    ngram_count_word_pos = dict(Counter(trainset_n_grams_word_pos))
     ngram_count_word_pos_1 = dict(Counter(trainset_n_grams_word_pos_1))
