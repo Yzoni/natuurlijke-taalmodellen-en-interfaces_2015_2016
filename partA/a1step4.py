@@ -3,7 +3,6 @@ import gzip
 import itertools
 import re
 from collections import Counter
-from pprint import pprint
 
 from a1step2 import create_ngrams_all_sentences
 from a1step3 import conditional_good_turing_smoothing
@@ -65,11 +64,11 @@ def insert_start_stop_list(sentences_pos):
     return sentences_pos
 
 
-def transition_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothing='yes'):
+def model(ngram_count, ngram_1_count, voc_size, k, smoothing='yes'):
     """
+    Transition and emission model
     :param ngram_count: {('RBR', 'IN'): 23, ('JJS', 'CD'): 5,...
     :param ngram_1_count: {('NNS',): 3458, ('JJR',): 193, ('VBN',): 1096,...
-    :param sentences: sentences for no smoothing
     :param voc_size: vocabulary size
     :param k: c < k
     :param smoothing: yes | no
@@ -79,109 +78,51 @@ def transition_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothi
         nnc_counts = nc_counts(ngram_count)
         return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
     else:
-        for sentence in sentences:
-        # TODO SET IN dict
-        #conditional_probability(ngram_count, ngram_1_count, )
-            pass
+        return conditional_no_smoothing(ngram_count, n_1_gram_count)
 
 
-def emission_model(pos_word_count, pos_count, sentences, voc_size, k, smoothing='yes'):
-    """
-    :param pos_word_count: {('racial', 'JJ'): 2, ('portables', 'NNS'): 3,....
-    :param pos_count: {'POS': 551, 'RP': 177, 'DT': 4819, 'IN': 5862,...
-    :param k: only smooth for c < k
-    :param smoothing: yes | no
-    :return:
-    """
-    if smoothing == 'yes':
-        nnc_counts = nc_counts(pos_word_count)
-        return conditional_good_turing_smoothing(nnc_counts, pos_word_count, pos_count, voc_size, k)
-    else:
-        # create dict with now smoothing
-        pass
-        return -1
-
-
-def get_value_nested_dict(dictionary, column, row):
-    column = dictionary.get(column)
-    if column is None:
-        return 0
-    else:
-        row = column.get(row)
-        if row is None:
-            return 0
+def conditional_no_smoothing(ngram_count, ngram_1_count):
+    """Gets the good turing smoothed count from one ngram"""
+    cond_probs = {}
+    for ngram in ngram_count:
+        count_n_1_gram = ngram_1_count.get(ngram[:-1])
+        if count_n_1_gram is None:  # if n-1 gram could not be found probability is zero
+            cond_probs[ngram] = 0
         else:
-            return row
+            if ngram[0] not in cond_probs:
+                cond_probs[ngram[0]] = {}
+            cond_probs[ngram[0]][ngram[1]] = ngram_count[ngram] / count_n_1_gram
+    return cond_probs
 
 
-def viterbi(sentence, postags, trans_p, emit_p):
-    # init matrix
-    viterbi_matrix = numpy.zeros((len(sentence) - 2, len(sentence) - 2))
-
-    for word in sentence:
-        j = 0
-        for j in range(j, len(sentence)):
-            t = 0
-        t += 1
-        i = 0
-        for postagi in postags:
-            i += 1
-            trans_i = trans_p.get(postagi)
-            emit_tag = emit_p.get(postagi)
-            emit_prob = emit_tag.get(word)
-            max_ = []
-
-            for postagj in postags:
-                trans_temp = trans_p.get(postagj)
-                trans_j = trans_temp(postagi)
-
-                previous_state = viterbi_matrix[i][t - 1]
-
-                temp = previous_state * trans_j * emit_prob
-                max_.append(temp)
-
-            max_prob = max(max_)
-            V[j][t] = (prob, (max_.index(max_prob))
-
-            # start
-            if trans is None:
-                V[0][postag] = 0
-            else:
-                emmision_word_dict = emit_p.get(postag)
-            if emmision_word_dict is None:
-                V[0][postag] = 0
-            else:
-                emmision_prob = emmision_word_dict.get(word)
-            if emmision_prob is None:
-                V[0][postag] = 0
-            else:
-                V[0][postag] = trans * emmision_prob
-
-            pprint(V)
-
-            """
-            for i in states:
-                prob = start_p.get(i)
-                if prob is None:
-                    V[0][i] = 0
-                else:
-                    V[0][i] = prob
-            pprint(V)
-            # Run Viterbi when t > 0
-            for t in range(1, len(obs)):
-                V.append({})
-                for y in states:
-                    (prob, state) = max((V[t-1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0) for y0 in states)
+def viterbi(sentence, states, start_p, trans_p, emit_p):
+    """
+    Attempt on the viterbi algorithm. We took https://en.wikipedia.org/wiki/Viterbi_algorithm as a base.
+    """
+    V = [{}]
+    opt = []
+    for i in states:
+        if emit_p[i].get(sentence[0]) is not None:
+            V[0][i] = start_p[i] * emit_p[i][sentence[0]]
+    # Run Viterbi when t > 0
+    counter = 0
+    for t in range(1, len(sentence)):
+        V.append({})
+        for y in states:
+            for y0 in states:
+                if trans_p.get(y0) is not None and trans_p[y0].get(y) is not None and emit_p.get(y) is not None and \
+                                emit_p[y].get(sentence[t]) is not None and V[t - 1].get(y0) is not None:
+                    (Prob, state) = max((V[t - 1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0))
                     V[t][y] = prob
-            for j in V:
-                for x, y in j.items():
-                    if j[x] == max(j.values()):
-                        opt.append(x)
-            # the highest probability
-            h = max(V[-1].values())
+    for j in V:
+        for x, y in j.items():
+            if j[x] == max(j.values()):
+                opt.append(x)
+    # the highest probability
 
-            return V
-        """
+    h = max(V[-1].values())
+    return V
+
 
 def sentence_no_pos(word_pos_sentences, pos_list):
     sentence_words = []
@@ -204,10 +145,13 @@ if __name__ == "__main__":
     with gzip.open(args.train_set, 'rb') as f:
         word_pos_sentences = parse_pos_file(f)
 
+    with gzip.open(args.test_set, 'rb') as f:
+        word_pos_test_sentences = parse_pos_file(f)
+
     # OBSERVATIONS
     sentences_pos = extract_pos_sentences(word_pos_sentences)
     pos_list = list(set(pos for sentence in sentences_pos for pos in sentence))
-    all_observations = sentence_no_pos(word_pos_sentences, pos_list)
+    sentences_no_pos = sentence_no_pos(word_pos_sentences, pos_list)
 
     # TRANSITION MODEL
     sentences_word_pos = extract_pos_sentences(word_pos_sentences)
@@ -229,11 +173,7 @@ if __name__ == "__main__":
     pos_count = dict(Counter(only_pos))
 
     # CREATE MODELS
-    trans_model = transition_model(ngram_count, n_1_gram_count, [], all_possible_ngram_count, 4, smoothing='yes')
-    emiss_model = emission_model(pos_word_count, pos_count, [], all_possible_ngram_count, 1, smoothing='yes')
+    trans_model = model(ngram_count, n_1_gram_count, all_possible_ngram_count, 4, smoothing='yes')
+    emiss_model = model(pos_word_count, pos_count, all_possible_ngram_count, 1, smoothing='yes')
 
-    # CREATE START TRANSITION FROM TRANSITION MODEL
-    start_model = trans_model.get('0START0')
-
-    for observation in all_observations:
-        pprint(viterbi(tuple(observation), tuple(pos_list), trans_model, emiss_model))
+    print(viterbi(tuple(sentences_no_pos[0]), tuple(pos_list), trans_model.get("0START0"), trans_model, emiss_model))
