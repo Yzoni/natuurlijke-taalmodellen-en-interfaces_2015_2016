@@ -1,10 +1,13 @@
 import argparse
 import gzip
+import itertools
 import re
 from collections import Counter
+from pprint import pprint
 
 from a1step2 import create_ngrams_all_sentences
 from a1step3 import conditional_good_turing_smoothing
+from a1step3 import get_all_possible_ngram_count
 from a1step3 import nc_counts
 
 
@@ -19,7 +22,7 @@ def parse_pos_file(file_stream):
         dline = line.decode("utf-8")
         dline_split = dline.split()
         for word in dline_split:
-            if re.fullmatch('``/``', word):
+            if re.fullmatch('``\``', word):
                 continue
             if re.fullmatch('([a-zA-z]|\')+/[a-zA-z]+', word):
                 word_tag = word.split('/')
@@ -42,11 +45,10 @@ def extract_pos_sentences(word_pos_sentences):
     return sentences_pos
 
 
-def extract_word_sentences(word_pos_sentences):
-    sentences = []
-    for sentence in word_pos_sentences:
-        sentences.append([p for pos in sentence for p in pos])
-    return sentences
+def extract_pos(word_pos_sentences):
+    word_pos = list(itertools.chain(*word_pos_sentences))
+    word_pos_tuples = [tuple(l) for l in word_pos]
+    return [pos[1] for pos in word_pos_tuples]
 
 
 def insert_start_stop_list(sentences_pos):
@@ -58,6 +60,15 @@ def insert_start_stop_list(sentences_pos):
 
 
 def transition_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothing='yes'):
+    """
+    :param ngram_count: {('RBR', 'IN'): 23, ('JJS', 'CD'): 5,...
+    :param ngram_1_count: {('NNS',): 3458, ('JJR',): 193, ('VBN',): 1096,...
+    :param sentences: sentences for no smoothing
+    :param voc_size: vocabulary size
+    :param k: c < k
+    :param smoothing: yes | no
+    :return:
+    """
     if smoothing == 'yes':
         nnc_counts = nc_counts(ngram_count)
         return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
@@ -68,10 +79,17 @@ def transition_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothi
             pass
 
 
-def emission_model(ngram_count, ngram_1_count, sentences, voc_size, k, smoothing = 'yes'):
+def emission_model(pos_word_count, pos_count, sentences, voc_size, k, smoothing='yes'):
+    """
+    :param pos_word_count: {('racial', 'JJ'): 2, ('portables', 'NNS'): 3,....
+    :param pos_count: {'POS': 551, 'RP': 177, 'DT': 4819, 'IN': 5862,...
+    :param k: only smooth for c < k
+    :param smoothing: yes | no
+    :return:
+    """
     if smoothing == 'yes':
-        nnc_counts = nc_counts(ngram_count)
-        return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
+        nnc_counts = nc_counts(pos_word_count)
+        return conditional_good_turing_smoothing(nnc_counts, pos_word_count, pos_count, voc_size, k)
     else:
         # create dict with now smoothing
         pass
@@ -115,31 +133,35 @@ if __name__ == "__main__":
     parser.add_argument('-test_set_predicted', type=str, help='path to test set predicted')
     args = parser.parse_args()
 
+    all_possible_ngram_count = get_all_possible_ngram_count(args.test_set, 2)
+
     with gzip.open(args.train_set, 'rb') as f:
         word_pos_sentences = parse_pos_file(f)
 
     sentences_pos = extract_pos_sentences(word_pos_sentences)
-
     pos_list = list(set(pos for sentence in sentences_pos for pos in sentence))
     sentences_no_pos = sentence_no_pos(word_pos_sentences, pos_list)
-    
-    sentences_word_pos = extract_word_sentences(word_pos_sentences)
 
-    start_stop_sentences_pos = insert_start_stop_list(sentences_pos)
-    start_stop_sentences_word_pos = insert_start_stop_list(sentences_word_pos)
+    # TRANSITION MODEL
+    sentences_word_pos = extract_pos_sentences(word_pos_sentences)
+    start_stop_sentences_pos = insert_start_stop_list(sentences_word_pos)
 
-    n_grams_word_pos_1 = create_ngrams_all_sentences(word_pos_sentences, 1)
-    n_grams_word_pos = create_ngrams_all_sentences(word_pos_sentences, 2)
-    
     trainset_ngrams_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2)
     trainset_ngrams_1_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2 - 1)
-
-    trainset_n_grams_word_pos = create_ngrams_all_sentences(start_stop_sentences_word_pos, 2)
-    trainset_n_grams_word_pos_1 = create_ngrams_all_sentences(start_stop_sentences_word_pos, 1)
-
 
     ngram_count = dict(Counter(trainset_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))
 
-    ngram_count_word_pos = dict(Counter(trainset_n_grams_word_pos))
-    ngram_count_word_pos_1 = dict(Counter(trainset_n_grams_word_pos_1))
+    pprint(transition_model(ngram_count, n_1_gram_count, [], all_possible_ngram_count, 4, smoothing='yes'))
+
+    # EMISSION MODEL
+    # Get count for (POSTAG, WORD)
+    flattened_word_pos_sentences = list(itertools.chain(*word_pos_sentences))
+    word_pos_tuples = [tuple(l) for l in flattened_word_pos_sentences]
+    pos_word_count = dict(Counter(word_pos_tuples))
+
+    # Get count for (POSTAG)
+    only_pos = extract_pos(word_pos_sentences)
+    pos_count = dict(Counter(only_pos))
+
+    pprint(emission_model(pos_word_count, pos_count, [], all_possible_ngram_count, 1, smoothing='yes'))
