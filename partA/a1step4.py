@@ -48,7 +48,7 @@ def extract_pos_sentences(word_pos_sentences):
 def extract_pos(word_pos_sentences):
     word_pos = list(itertools.chain(*word_pos_sentences))
     word_pos_tuples = [tuple(l) for l in word_pos]
-    return [pos[1] for pos in word_pos_tuples]
+    return [tuple([pos[1]]) for pos in word_pos_tuples]
 
 
 def insert_start_stop_list(sentences_pos):
@@ -140,13 +140,14 @@ if __name__ == "__main__":
     ngram_count = dict(Counter(trainset_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))
 
-    pprint(transition_model(ngram_count, n_1_gram_count, [], all_possible_ngram_count, 4, smoothing='yes'))
+    # transition_model(ngram_count, n_1_gram_count, [], all_possible_ngram_count, 4, smoothing='yes')
 
     # EMISSION MODEL
     # Get count for (POSTAG, WORD)
     flattened_word_pos_sentences = list(itertools.chain(*word_pos_sentences))
     word_pos_tuples = [tuple(l) for l in flattened_word_pos_sentences]
-    pos_word_count = dict(Counter(word_pos_tuples))
+    reversed_word_pos_tuples = [tuple(reversed(atuple)) for atuple in word_pos_tuples]
+    pos_word_count = dict(Counter(reversed_word_pos_tuples))
 
     # Get count for (POSTAG)
     only_pos = extract_pos(word_pos_sentences)
