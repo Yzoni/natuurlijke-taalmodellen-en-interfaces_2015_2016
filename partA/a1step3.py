@@ -73,13 +73,9 @@ def sequential_good_turing_smoothing(ngram_count, ngram_1_count, test_sentences,
             y = p_ngram[:-1]
             x = p_ngram[-1]
 
-            xdict = smoothed_gt_ngrams.get(y[0])
-            if xdict is not None:
-                ss = xdict.get(x[0])
-                if ss is not None:
-                    prob *= ss
-                else:
-                    prob = 0
+            nprob = smoothed_gt_ngrams.get((y, x))
+            if nprob is not None:
+                prob *= nprob
             else:
                 prob = 0
         probabilities.append(prob)
@@ -92,12 +88,7 @@ def conditional_good_turing_smoothing(nc_counts, ngram_count, ngram_1_count, voc
     for ngram in ngram_count:
         cgt = good_turing_count(nc_counts, ngram_count, ngram, voc_size, k)
         count_n_1_gram = ngram_1_count.get(ngram[:-1])
-        if count_n_1_gram is None:  # if n-1 gram could not be found probability is zero
-            cond_probs[ngram] = 0
-        else:
-            if ngram[0] not in cond_probs:
-                cond_probs[ngram[0]] = {}
-            cond_probs[ngram[0]][ngram[1]] = cgt / count_n_1_gram
+        cond_probs[ngram] = cgt / count_n_1_gram
     return cond_probs
 
 
@@ -147,7 +138,7 @@ if __name__ == "__main__":
     ngram_count = dict(Counter(corpus_ngrams_all_sentences))
     n_1_gram_count = dict(Counter(corpus_ngrams_1_all_sentences))
 
-    all_possible_ngram_count = get_all_possible_ngram_count(test_extracted_sentences, n)
+    all_possible_ngram_count = get_all_possible_ngram_count(test_extracted_sentences, args.n)
 
     if args.smoothing == 'no':
         pprint(sequential_no_smoothing(ngram_count, n_1_gram_count, test_extracted_sentences, args.n))

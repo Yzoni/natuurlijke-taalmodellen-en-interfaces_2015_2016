@@ -78,7 +78,7 @@ def model(ngram_count, ngram_1_count, voc_size, k, smoothing='yes'):
         nnc_counts = nc_counts(ngram_count)
         return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
     else:
-        return conditional_no_smoothing(ngram_count, n_1_gram_count)
+        return conditional_no_smoothing(ngram_count, ngram_1_count)
 
 
 def conditional_no_smoothing(ngram_count, ngram_1_count):
@@ -95,35 +95,6 @@ def conditional_no_smoothing(ngram_count, ngram_1_count):
     return cond_probs
 
 
-def viterbi(sentence, states, start_p, trans_p, emit_p):
-    """
-    Attempt on the viterbi algorithm. We took https://en.wikipedia.org/wiki/Viterbi_algorithm as a base.
-    """
-    V = [{}]
-    opt = []
-    for i in states:
-        if emit_p[i].get(sentence[0]) is not None:
-            V[0][i] = start_p[i] * emit_p[i][sentence[0]]
-    # Run Viterbi when t > 0
-    counter = 0
-    for t in range(1, len(sentence)):
-        V.append({})
-        for y in states:
-            for y0 in states:
-                if trans_p.get(y0) is not None and trans_p[y0].get(y) is not None and emit_p.get(y) is not None and \
-                                emit_p[y].get(sentence[t]) is not None and V[t - 1].get(y0) is not None:
-                    (Prob, state) = max((V[t - 1][y0] * trans_p[y0][y] * emit_p[y][obs[t]], y0))
-                    V[t][y] = prob
-    for j in V:
-        for x, y in j.items():
-            if j[x] == max(j.values()):
-                opt.append(x)
-    # the highest probability
-
-    h = max(V[-1].values())
-    return V
-
-
 def sentence_no_pos(word_pos_sentences, pos_list):
     sentence_words = []
     for sentence in word_pos_sentences:
@@ -132,7 +103,77 @@ def sentence_no_pos(word_pos_sentences, pos_list):
     sentence_words = insert_start_stop_list(sentence_words)
     return sentence_words
 
-if __name__ == "__main__":
+
+class viterbi:
+    def __init__(self, trans_model, emiss_model):
+        self.t_model = trans_model
+        self.e_model = emiss_model
+        self.states = self.get_states()  # are pos tags
+
+    def get_states(self):
+        key_list = [key for key in self.t_model]
+        unique_states_1, unique_states_2 = zip(*key_list)
+        return list(set(list(unique_states_1) + list(unique_states_2)))
+
+    def _init_table(self, first_word):
+        dct = {}
+        for state in self.states:
+            e_prob = self.e_model.get((state, first_word))
+            if e_prob is None:
+                e_prob = 0
+            t_prob = self.t_model.get(('0START0', state))
+            if t_prob is None:
+                t_prob = 0
+            dct[(first_word, state)] = (t_prob * e_prob, None)
+        return dct
+
+    def _run_cell(self, previous_word, word, current_pos, full_dct):
+        cell_dct = {}
+        e_prob = self.e_model.get((current_pos, word))
+        if e_prob is None:
+            return None, 0
+        for state in self.states:
+            t_prob = self.t_model.get((current_pos, state))
+            if t_prob is None:
+                t_prob = 0
+            previous_prob = full_dct.get((previous_word, state))
+            if previous_prob is None:
+                previous_prob = [0, None]
+            cell_dct[state] = previous_prob[0] * t_prob * e_prob
+        # Get max from cell_dct
+        previous_pos_with_maxvalue = max(cell_dct, key=lambda key: cell_dct[key])
+        previous_pos_value = cell_dct.get(previous_pos_with_maxvalue)
+        return previous_pos_with_maxvalue, previous_pos_value
+
+    def _backward(self, sentence, maxprob_pos, dct):
+        pos_sentence = []
+        pos_sentence.append(maxprob_pos)
+        for word in list(reversed(sentence))[1:-1]:
+            maxprob_pos = dct.get(word, maxprob_pos)
+            pos_sentence.append(maxprob_pos)
+        return list(reversed(pos_sentence))
+
+    def _get_previous_pos_and_max_prob(self, sentence, dct):
+        last_word = sentence[-2]
+        last_timestep = [dct.get((last_word, state)) for state in self.states]
+        probs, previous_pos = zip(*last_timestep)
+        max_index, max_value = max(enumerate(probs), key=lambda p: p[1])
+        return previous_pos[max_index], max_value
+
+    def run(self, sentence):
+        dct = self._init_table(sentence[1])  # {(word, current POS) : (prob, previous POS)}
+        previous_word = sentence[1]
+        for word in sentence[2:-1]:
+            for pos in self.states:
+                previous_pos, new_max_prob = self._run_cell(previous_word, word, pos, dct)
+                dct[(word, pos)] = (new_max_prob, previous_pos)
+            previous_word = word
+        pos_max_prob, max_prob = self._get_previous_pos_and_max_prob(sentence, dct)
+        pos_sentence = self._backward(sentence, pos_max_prob, dct)
+        return pos_sentence, max_prob
+
+
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-smoothing', type=str, help='yes|no', default='yes')
     parser.add_argument('-train_set', type=str, help='path to train set')
@@ -176,4 +217,8 @@ if __name__ == "__main__":
     trans_model = model(ngram_count, n_1_gram_count, all_possible_ngram_count, 4, smoothing='yes')
     emiss_model = model(pos_word_count, pos_count, all_possible_ngram_count, 1, smoothing='yes')
 
-    print(viterbi(tuple(sentences_no_pos[0]), tuple(pos_list), trans_model.get("0START0"), trans_model, emiss_model))
+    viterbi_model = viterbi(trans_model, emiss_model)
+    viterbi_model.run(sentences_no_pos[1])
+
+if __name__ == "__main__":
+    main()
