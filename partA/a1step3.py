@@ -69,7 +69,7 @@ def sequential_good_turing_smoothing(ngram_count, ngram_1_count, test_sentences,
 
         prob = 1
         for p_ngram in paragraph_ngrams:
-            # find ngram in dict P(x|y)
+            # P(x|y)
             y = p_ngram[:-1]
             x = p_ngram[-1]
 

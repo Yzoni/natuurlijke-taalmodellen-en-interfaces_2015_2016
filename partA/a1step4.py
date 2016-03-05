@@ -21,9 +21,9 @@ def parse_pos_file(file_stream):
         dline = line.decode("utf-8")
         dline_split = dline.split()
         for word in dline_split:
-            if re.fullmatch('``\``', word):
+            if re.fullmatch('``.*', word):
                 continue
-            if re.fullmatch('([a-zA-z]|\')+/[a-zA-z]+', word):
+            if re.fullmatch('([a-zA-z]|-|\')+/[a-zA-z]+', word):
                 word_tag = word.split('/')
                 sentence.append(word_tag)
             if word == '======================================' or word == './.':
@@ -44,6 +44,13 @@ def extract_pos_sentences(word_pos_sentences):
     return sentences_pos
 
 
+def extract_word_sentences(word_pos_sentences):
+    sentences_word = []
+    for sentence in word_pos_sentences:
+        sentences_word.append([pos[0] for pos in sentence])
+    return sentences_word
+
+
 def extract_pos(word_pos_sentences):
     word_pos = list(itertools.chain(*word_pos_sentences))
     word_pos_tuples = [tuple(l) for l in word_pos]
@@ -56,29 +63,56 @@ def extract_word_pos(word_pos_sentences):
     return [tuple(reversed(atuple)) for atuple in word_pos_tuples]
 
 
-def insert_start_stop_list(sentences_pos):
+def insert_start_stop_list(sentences):
     """Adds start stop symbols to sentences in the form of a list"""
-    for sentence in sentences_pos:
+    for sentence in sentences:
         sentence.insert(0, '0START0')
         sentence.append('0STOP0')
-    return sentences_pos
+    return sentences
 
 
-def model(ngram_count, ngram_1_count, voc_size, k, smoothing='yes'):
+def transition_model(word_pos_sentences, k, smoothing='yes'):
     """
     Transition and emission model
-    :param ngram_count: {('RBR', 'IN'): 23, ('JJS', 'CD'): 5,...
-    :param ngram_1_count: {('NNS',): 3458, ('JJR',): 193, ('VBN',): 1096,...
-    :param voc_size: vocabulary size
+    :param word_pos_sentences
     :param k: c < k
     :param smoothing: yes | no
     :return:
     """
+    sentences_pos = extract_pos_sentences(word_pos_sentences)
+    unique_pos = list(set(pos for sentence in sentences_pos for pos in sentence))
+    voc_size = get_all_possible_ngram_count(unique_pos, 2)
+
+    sentences_word_pos = extract_pos_sentences(word_pos_sentences)
+    start_stop_sentences_pos = insert_start_stop_list(sentences_word_pos)
+
+    trainset_ngrams_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2)
+    trainset_ngrams_1_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2 - 1)
+
+    ngram_count = dict(Counter(trainset_ngrams_all_sentences))  # {('RBR', 'IN'): 23, ('JJS', 'CD'): 5,...
+    n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))  # {('NNS',): 3458, ('JJR',): 193, ('VBN',): 1096,.
+
     if smoothing == 'yes':
         nnc_counts = nc_counts(ngram_count)
-        return conditional_good_turing_smoothing(nnc_counts, ngram_count, ngram_1_count, voc_size, k)
+        return conditional_good_turing_smoothing(nnc_counts, ngram_count, n_1_gram_count, voc_size, k)
     else:
-        return conditional_no_smoothing(ngram_count, ngram_1_count)
+        return conditional_no_smoothing(ngram_count, n_1_gram_count)
+
+
+def emission_model(word_pos_sentences, k, smoothing='yes'):
+    # Get count for (POSTAG, WORD)
+    only_word_pos = extract_word_pos(word_pos_sentences)
+    pos_word_count = dict(Counter(only_word_pos))
+
+    # Get count for (POSTAG)
+    only_pos = extract_pos(word_pos_sentences)
+    pos_count = dict(Counter(only_pos))
+
+    if smoothing == 'yes':
+        nnc_counts = nc_counts(pos_word_count)
+        return conditional_good_turing_smoothing(nnc_counts, pos_word_count, pos_count, 1, k)
+    else:
+        return conditional_no_smoothing(pos_word_count, pos_count)
 
 
 def conditional_no_smoothing(ngram_count, ngram_1_count):
@@ -148,12 +182,15 @@ class viterbi:
     def _backward(self, sentence, maxprob_pos, dct):
         pos_sentence = []
         pos_sentence.append(maxprob_pos)
+        maxprob_pos = (None, maxprob_pos)  # Has to be a tuple in loop
         for word in list(reversed(sentence))[1:-1]:
-            maxprob_pos = dct.get(word, maxprob_pos)
-            pos_sentence.append(maxprob_pos)
-        return list(reversed(pos_sentence))
+            maxprob_pos = dct.get((word, maxprob_pos[1]))
+            if maxprob_pos is None:
+                return None
+            pos_sentence.append(maxprob_pos[1])
+        return list(reversed(pos_sentence))  # Remove start symbol
 
-    def _get_previous_pos_and_max_prob(self, sentence, dct):
+    def _get_last_previous_pos_and_max_prob(self, sentence, dct):
         last_word = sentence[-2]
         last_timestep = [dct.get((last_word, state)) for state in self.states]
         probs, previous_pos = zip(*last_timestep)
@@ -168,8 +205,10 @@ class viterbi:
                 previous_pos, new_max_prob = self._run_cell(previous_word, word, pos, dct)
                 dct[(word, pos)] = (new_max_prob, previous_pos)
             previous_word = word
-        pos_max_prob, max_prob = self._get_previous_pos_and_max_prob(sentence, dct)
+        pos_max_prob, max_prob = self._get_last_previous_pos_and_max_prob(sentence, dct)
         pos_sentence = self._backward(sentence, pos_max_prob, dct)
+        if pos_sentence is None:  # Probability is 0 for some time step in the backchain
+            return None
         return pos_sentence, max_prob
 
 
@@ -181,44 +220,28 @@ def main():
     parser.add_argument('-test_set_predicted', type=str, help='path to test set predicted')
     args = parser.parse_args()
 
-    all_possible_ngram_count = get_all_possible_ngram_count(args.test_set, 2)
-
     with gzip.open(args.train_set, 'rb') as f:
         word_pos_sentences = parse_pos_file(f)
 
     with gzip.open(args.test_set, 'rb') as f:
         word_pos_test_sentences = parse_pos_file(f)
 
-    # OBSERVATIONS
-    sentences_pos = extract_pos_sentences(word_pos_sentences)
-    pos_list = list(set(pos for sentence in sentences_pos for pos in sentence))
-    sentences_no_pos = sentence_no_pos(word_pos_sentences, pos_list)
-
-    # TRANSITION MODEL
-    sentences_word_pos = extract_pos_sentences(word_pos_sentences)
-    start_stop_sentences_pos = insert_start_stop_list(sentences_word_pos)
-
-    trainset_ngrams_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2)
-    trainset_ngrams_1_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2 - 1)
-
-    ngram_count = dict(Counter(trainset_ngrams_all_sentences))
-    n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))
-
-    # EMISSION MODEL
-    # Get count for (POSTAG, WORD)
-    only_word_pos = extract_word_pos(word_pos_sentences)
-    pos_word_count = dict(Counter(only_word_pos))
-
-    # Get count for (POSTAG)
-    only_pos = extract_pos(word_pos_sentences)
-    pos_count = dict(Counter(only_pos))
-
     # CREATE MODELS
-    trans_model = model(ngram_count, n_1_gram_count, all_possible_ngram_count, 4, smoothing='yes')
-    emiss_model = model(pos_word_count, pos_count, all_possible_ngram_count, 1, smoothing='yes')
+    trans_model = transition_model(word_pos_sentences, 4, smoothing='yes')
+    emiss_model = emission_model(word_pos_sentences, 1, smoothing='yes')
 
+    test_sentences = extract_word_sentences(word_pos_test_sentences)
     viterbi_model = viterbi(trans_model, emiss_model)
-    viterbi_model.run(sentences_no_pos[1])
+    start_stop_test = insert_start_stop_list(test_sentences)
+
+    count = 0
+    for sentence in start_stop_test:
+        pos_sentence = viterbi_model.run(sentence)
+        if pos_sentence is not None:
+            count += 1
+            print(' '.join(sentence))
+            print(viterbi_model.run(sentence))
+    print(count)
 
 if __name__ == "__main__":
     main()
