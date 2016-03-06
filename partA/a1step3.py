@@ -74,36 +74,43 @@ def sequential_good_turing_smoothing(ngram_count, ngram_1_count, test_sentences,
             x = p_ngram[-1]
 
             nprob = smoothed_gt_ngrams.get((y, x))
-            if nprob is not None:
-                prob *= nprob
-            else:
-                prob = 0
+            if nprob is None:
+                nprob = smoothed_gt_ngrams.get(('', ''))
+            prob *= nprob
+
         probabilities.append(prob)
     return probabilities
 
 
-def conditional_good_turing_smoothing(nc_counts, ngram_counts, ngram_1_counts, voc_size, k):
+def conditional_good_turing_smoothing(ngram_counts, ngram_1_counts, voc_size, k):
     """Gets the good turing smoothed count from one ngram"""
     cond_probs = {}
+    nnc_counts = nc_counts(ngram_counts)
+
     for ngram in ngram_counts:
-        cgt = good_turing_count(nc_counts, ngram_count, ngram, voc_size, k)
+        cgt = good_turing_count(nnc_counts, ngram_counts, ngram, voc_size, k)
         count_n_1_gram = ngram_1_counts.get(ngram[:-1])
         cond_probs[ngram] = cgt / count_n_1_gram
+
+    # For not appearin ngrams
+    cgt = good_turing_count(nnc_counts, ngram_counts, (), voc_size, k)
+    cond_probs[('', '')] = cgt
     return cond_probs
 
 
-def good_turing_count(nc_counts, ngram_count, one_ngram, all_possible_ngramcount, k):
+def good_turing_count(nc_counts, ngram_counts, one_ngram, all_possible_ngramcount, k):
     """Gets the good turing smoothed count from one ngram"""
-    c = ngram_count.get(one_ngram)
-    ncounts_inc_zero = [all_possible_ngramcount - sum(nc_counts)] + nc_counts
-    return good_turing_function(c, ncounts_inc_zero, k)
+    c = ngram_counts.get(one_ngram)
+    if c is None:
+        c = 0
+    nc_counts[0] = all_possible_ngramcount - sum(nc_counts.values())
+    return good_turing_function(c, nc_counts, k)
 
 
 def nc_counts(ngram_count):
     """Creates a list of Nc counts assumes no gaps"""
     values = [ngram_count.get(key_bigram_count) for key_bigram_count in ngram_count]
-    counted_values = list(dict(Counter(values)).values())
-    return counted_values
+    return dict(Counter(values))
 
 
 def good_turing_function(r, n, k):

@@ -7,7 +7,6 @@ from collections import Counter
 from a1step2 import create_ngrams_all_sentences
 from a1step3 import conditional_good_turing_smoothing
 from a1step3 import get_all_possible_ngram_count
-from a1step3 import nc_counts
 
 
 def parse_pos_file(file_stream):
@@ -79,12 +78,10 @@ def transition_model(word_pos_sentences, k, smoothing='yes'):
     :param smoothing: yes | no
     :return:
     """
-    sentences_pos = extract_pos_sentences(word_pos_sentences)
-    unique_pos = list(set(pos for sentence in sentences_pos for pos in sentence))
-    voc_size = get_all_possible_ngram_count(unique_pos, 2)
-
     sentences_word_pos = extract_pos_sentences(word_pos_sentences)
     start_stop_sentences_pos = insert_start_stop_list(sentences_word_pos)
+
+    voc_size = get_all_possible_ngram_count(start_stop_sentences_pos, 2)
 
     trainset_ngrams_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2)
     trainset_ngrams_1_all_sentences = create_ngrams_all_sentences(start_stop_sentences_pos, 2 - 1)
@@ -93,8 +90,7 @@ def transition_model(word_pos_sentences, k, smoothing='yes'):
     n_1_gram_count = dict(Counter(trainset_ngrams_1_all_sentences))  # {('NNS',): 3458, ('JJR',): 193, ('VBN',): 1096,.
 
     if smoothing == 'yes':
-        nnc_counts = nc_counts(ngram_count)
-        return conditional_good_turing_smoothing(nnc_counts, ngram_count, n_1_gram_count, voc_size, k)
+        return conditional_good_turing_smoothing(ngram_count, n_1_gram_count, voc_size, k)
     else:
         return conditional_no_smoothing(ngram_count, n_1_gram_count)
 
@@ -109,8 +105,7 @@ def emission_model(word_pos_sentences, k, smoothing='yes'):
     pos_count = dict(Counter(only_pos))
 
     if smoothing == 'yes':
-        nnc_counts = nc_counts(pos_word_count)
-        return conditional_good_turing_smoothing(nnc_counts, pos_word_count, pos_count, 1, k)
+        return conditional_good_turing_smoothing(pos_word_count, pos_count, 1, k)
     else:
         return conditional_no_smoothing(pos_word_count, pos_count)
 
@@ -205,23 +200,24 @@ class viterbi:
 def calculate_accuracy(generated_pos_sentences, validation_pos_sentences):
     correct_count = 0
     total_not_none_count = 0
+    total = 0
     for generated_pos_sentence, validation_pos_sentence in zip(generated_pos_sentences, validation_pos_sentences):
         if len(validation_pos_sentence) < 15:
             if generated_pos_sentence is not None:
-                print(generated_pos_sentence[0], validation_pos_sentence)
                 if generated_pos_sentence[0] == validation_pos_sentence:
                     correct_count += 1
                 total_not_none_count += 1
-    return (correct_count / total_not_none_count) * 100, total_not_none_count
+            total += 1
+    return (correct_count / total_not_none_count) * 100, total_not_none_count, total
 
 
 def save_lists_to_file(filename, sentences1, sentences2):
     f = open(filename, 'w')
-    for sentence1, sentences2 in zip(sentences1, sentences2):
-        f.write(sentence1)
-        f.write(sentences2)
-        f.write('')
-
+    for sentence1, sentence2 in zip(sentences1, sentences2):
+        if sentence2 is not None and len(sentence1) < 15:
+            f.write(' '.join(sentence1) + '\n')
+            f.write(' '.join(sentence2[0]) + '\n')
+            f.write('\n')
 
 def main():
     parser = argparse.ArgumentParser()
@@ -245,18 +241,19 @@ def main():
     # GENERATE POS SENTENCES FROM TEST WORD SENTENCES
     test_sentences = extract_word_sentences(word_pos_test_sentences)
     start_stop_test = insert_start_stop_list(test_sentences)
-    test_sentence_no_pos = extract_word_sentences(word_pos_sentences)
+    test_sentence_no_pos = extract_word_sentences(word_pos_test_sentences)
     generated_pos_sentence = [viterbi_model.run(word_sentence) for word_sentence in start_stop_test]
 
     # GENERATE WORD SENTENCES FOR VALIDATION OF GENERATED POS SENTENCES
     validation_pos_sentences = extract_pos_sentences(word_pos_test_sentences)
 
     # PRINT ACCURACY OF GENERATED POS SENTENCES
-    percentage_correct, total_non_none = calculate_accuracy(generated_pos_sentence, validation_pos_sentences)
-    print('Percentage correct ' + str(percentage_correct) + ' over total' + total_non_none)
+    percentage_correct, total_non_none, total = calculate_accuracy(generated_pos_sentence, validation_pos_sentences)
+    print('Percentage correct ' + str(percentage_correct) + ', over total not none ' + str(total_non_none) + ', total '
+          + str(total))
 
     # SAVE GENERATED POS SENTENCES TO FILE
-    save_lists_to_file(save_lists_to_file(args.test_set_predicted, test_sentence_no_pos, generated_pos_sentence))
+    save_lists_to_file(args.test_set_predicted, test_sentence_no_pos, generated_pos_sentence)
 
 if __name__ == "__main__":
     main()
