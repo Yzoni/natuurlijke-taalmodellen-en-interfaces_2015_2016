@@ -45,10 +45,10 @@ def extract_pos_sentences(word_pos_sentences):
 
 
 def extract_word_sentences(word_pos_sentences):
-    sentences_word = []
+    sentences_pos = []
     for sentence in word_pos_sentences:
-        sentences_word.append([pos[0] for pos in sentence])
-    return sentences_word
+        sentences_pos.append([pos[0] for pos in sentence])
+    return sentences_pos
 
 
 def extract_pos(word_pos_sentences):
@@ -122,15 +122,6 @@ def conditional_no_smoothing(ngram_count, ngram_1_count):
         count_n_1_gram = ngram_1_count.get(ngram[:-1])
         cond_probs[ngram] = ngram_count[ngram] / count_n_1_gram
     return cond_probs
-
-
-def sentence_no_pos(word_pos_sentences, pos_list):
-    sentence_words = []
-    for sentence in word_pos_sentences:
-        sentence_words.append([word for bigram in sentence for word in bigram
-                               if word not in list(pos_list)])
-    sentence_words = insert_start_stop_list(sentence_words)
-    return sentence_words
 
 
 class viterbi:
@@ -211,12 +202,33 @@ class viterbi:
         return pos_sentence, maxprob
 
 
+def calculate_accuracy(generated_pos_sentences, validation_pos_sentences):
+    correct_count = 0
+    total_not_none_count = 0
+    for generated_pos_sentence, validation_pos_sentence in zip(generated_pos_sentences, validation_pos_sentences):
+        if len(validation_pos_sentence) < 15:
+            if generated_pos_sentence is not None:
+                print(generated_pos_sentence[0], validation_pos_sentence)
+                if generated_pos_sentence[0] == validation_pos_sentence:
+                    correct_count += 1
+                total_not_none_count += 1
+    return (correct_count / total_not_none_count) * 100, total_not_none_count
+
+
+def save_lists_to_file(filename, sentences1, sentences2):
+    f = open(filename, 'w')
+    for sentence1, sentences2 in zip(sentences1, sentences2):
+        f.write(sentence1)
+        f.write(sentences2)
+        f.write('')
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-smoothing', type=str, help='yes|no', default='yes')
     parser.add_argument('-train_set', type=str, help='path to train set')
     parser.add_argument('-test_set', type=str, help='path to test set')
-    parser.add_argument('-test_set_predicted', type=str, help='path to test set predicted')
+    parser.add_argument('-test_set_predicted', type=str, help='path to save the predicted pos sentences')
     args = parser.parse_args()
 
     with gzip.open(args.train_set, 'rb') as f:
@@ -228,22 +240,23 @@ def main():
     # CREATE MODELS
     trans_model = transition_model(word_pos_sentences, 4, smoothing=args.smoothing)
     emiss_model = emission_model(word_pos_sentences, 1, smoothing=args.smoothing)
-
-    test_sentences = extract_word_sentences(word_pos_test_sentences)
     viterbi_model = viterbi(trans_model, emiss_model)
-    start_stop_test = insert_start_stop_list(test_sentences)
 
-    count = 0
-    totalcount = 0
-    for sentence in start_stop_test:
-        if len(sentence) < 15:
-            pos_sentence = viterbi_model.run(sentence)
-            if pos_sentence is not None:
-                count += 1
-                print(' '.join(sentence[1:-1]))
-                print(pos_sentence)
-            totalcount += 1
-    print(count, totalcount)
+    # GENERATE POS SENTENCES FROM TEST WORD SENTENCES
+    test_sentences = extract_word_sentences(word_pos_test_sentences)
+    start_stop_test = insert_start_stop_list(test_sentences)
+    test_sentence_no_pos = extract_word_sentences(word_pos_sentences)
+    generated_pos_sentence = [viterbi_model.run(word_sentence) for word_sentence in start_stop_test]
+
+    # GENERATE WORD SENTENCES FOR VALIDATION OF GENERATED POS SENTENCES
+    validation_pos_sentences = extract_pos_sentences(word_pos_test_sentences)
+
+    # PRINT ACCURACY OF GENERATED POS SENTENCES
+    percentage_correct, total_non_none = calculate_accuracy(generated_pos_sentence, validation_pos_sentences)
+    print('Percentage correct ' + str(percentage_correct) + ' over total' + total_non_none)
+
+    # SAVE GENERATED POS SENTENCES TO FILE
+    save_lists_to_file(save_lists_to_file(args.test_set_predicted, test_sentence_no_pos, generated_pos_sentence))
 
 if __name__ == "__main__":
     main()
