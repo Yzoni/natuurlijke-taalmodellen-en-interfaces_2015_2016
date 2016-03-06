@@ -21,7 +21,7 @@ def parse_pos_file(file_stream):
         dline = line.decode("utf-8")
         dline_split = dline.split()
         for word in dline_split:
-            if re.fullmatch('``.*', word):
+            if re.fullmatch('.*``.*', word):
                 continue
             if re.fullmatch('([a-zA-z]|-|\')+/[a-zA-z]+', word):
                 word_tag = word.split('/')
@@ -120,12 +120,7 @@ def conditional_no_smoothing(ngram_count, ngram_1_count):
     cond_probs = {}
     for ngram in ngram_count:
         count_n_1_gram = ngram_1_count.get(ngram[:-1])
-        if count_n_1_gram is None:  # if n-1 gram could not be found probability is zero
-            cond_probs[ngram] = 0
-        else:
-            if ngram[0] not in cond_probs:
-                cond_probs[ngram[0]] = {}
-            cond_probs[ngram[0]][ngram[1]] = ngram_count[ngram] / count_n_1_gram
+        cond_probs[ngram] = ngram_count[ngram] / count_n_1_gram
     return cond_probs
 
 
@@ -171,7 +166,7 @@ class viterbi:
             if t_prob is None:
                 t_prob = 0
             previous_prob = full_dct.get((previous_word, state))
-            if previous_prob is None:
+            if previous_prob[0] is 0:
                 previous_prob = [0, None]
             cell_dct[state] = previous_prob[0] * t_prob * e_prob
         # Get max from cell_dct
@@ -179,23 +174,26 @@ class viterbi:
         previous_pos_value = cell_dct.get(previous_pos_with_maxvalue)
         return previous_pos_with_maxvalue, previous_pos_value
 
-    def _backward(self, sentence, maxprob_pos, dct):
+    def _backward(self, sentence, maxkey, dct):
         pos_sentence = []
-        pos_sentence.append(maxprob_pos)
-        maxprob_pos = (None, maxprob_pos)  # Has to be a tuple in loop
-        for word in list(reversed(sentence))[1:-1]:
-            maxprob_pos = dct.get((word, maxprob_pos[1]))
-            if maxprob_pos is None:
+        s_sentence = sentence[1:-1]
+        for word in list(reversed(s_sentence)):
+            pos_sentence.append(maxkey[1])
+            maxkey = dct.get((word, maxkey[1]))
+            if maxkey is None:
                 return None
-            pos_sentence.append(maxprob_pos[1])
         return list(reversed(pos_sentence))  # Remove start symbol
 
-    def _get_last_previous_pos_and_max_prob(self, sentence, dct):
+    def _get_last_maxpos_and_max_prob(self, sentence, dct):
         last_word = sentence[-2]
-        last_timestep = [dct.get((last_word, state)) for state in self.states]
-        probs, previous_pos = zip(*last_timestep)
-        max_index, max_value = max(enumerate(probs), key=lambda p: p[1])
-        return previous_pos[max_index], max_value
+        maxprob = 0
+        maxkey = (None, None)
+        for state in self.states:
+            temp_prob = dct.get((last_word, state))[0]
+            if temp_prob > maxprob:
+                maxprob = temp_prob
+                maxkey = (last_word, state)
+        return maxkey, maxprob
 
     def run(self, sentence):
         dct = self._init_table(sentence[1])  # {(word, current POS) : (prob, previous POS)}
@@ -205,11 +203,12 @@ class viterbi:
                 previous_pos, new_max_prob = self._run_cell(previous_word, word, pos, dct)
                 dct[(word, pos)] = (new_max_prob, previous_pos)
             previous_word = word
-        pos_max_prob, max_prob = self._get_last_previous_pos_and_max_prob(sentence, dct)
-        pos_sentence = self._backward(sentence, pos_max_prob, dct)
+        maxkey, maxprob = self._get_last_maxpos_and_max_prob(sentence, dct)
+        pos_sentence = self._backward(sentence, maxkey, dct)
+
         if pos_sentence is None:  # Probability is 0 for some time step in the backchain
             return None
-        return pos_sentence, max_prob
+        return pos_sentence, maxprob
 
 
 def main():
@@ -227,21 +226,24 @@ def main():
         word_pos_test_sentences = parse_pos_file(f)
 
     # CREATE MODELS
-    trans_model = transition_model(word_pos_sentences, 4, smoothing='yes')
-    emiss_model = emission_model(word_pos_sentences, 1, smoothing='yes')
+    trans_model = transition_model(word_pos_sentences, 4, smoothing=args.smoothing)
+    emiss_model = emission_model(word_pos_sentences, 1, smoothing=args.smoothing)
 
     test_sentences = extract_word_sentences(word_pos_test_sentences)
     viterbi_model = viterbi(trans_model, emiss_model)
     start_stop_test = insert_start_stop_list(test_sentences)
 
     count = 0
+    totalcount = 0
     for sentence in start_stop_test:
-        pos_sentence = viterbi_model.run(sentence)
-        if pos_sentence is not None:
-            count += 1
-            print(' '.join(sentence))
-            print(viterbi_model.run(sentence))
-    print(count)
+        if len(sentence) < 15:
+            pos_sentence = viterbi_model.run(sentence)
+            if pos_sentence is not None:
+                count += 1
+                print(' '.join(sentence[1:-1]))
+                print(pos_sentence)
+            totalcount += 1
+    print(count, totalcount)
 
 if __name__ == "__main__":
     main()
