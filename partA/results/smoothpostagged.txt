@@ -1,0 +1,1395 @@
+No it was n't Black Monday
+DT PRP VBD RB NNP NNP
+
+Heavy selling of Standard Poor 's index futures in Chicago relentlessly beat stocks downward
+NNP VBG IN NNP NNP POS NN NNS IN NNP RB VBP NNS JJ
+
+At the end of the day million shares were traded
+IN DT NN IN DT NN CD NNS VBD VBN
+
+The Dow Jones industrials closed at
+DT NNP NNP NNS JJ IN
+
+The Dow fell on Black Monday
+DT NNP VBD IN NNP NNP
+
+At this point the Dow was down about points
+IN DT NN DT NNP VBD RB IN NNS
+
+These stocks eventually reopened
+DT NNS RB VBN
+
+Traders said most of major institutional investors on the other hand sat tight
+NNS VBD JJS IN JJ JJ NNS IN DT JJ NN VBD RB
+
+The futures halt was even assailed by Big Board floor traders
+DT NNS NN VBD RB VBD IN NNP NNP NN NNS
+
+But stocks kept falling
+CC NNS VBN VBG
+
+Buyers stepped in to the futures pit
+NNS VBN IN TO DT NNS NN
+
+But there were no buyers
+CC RB VBD RB NNS
+
+But nobody knows at what level the futures and stocks will open today
+CC NN VBZ IN WP NN DT NNS CC NNS NN JJ NN
+
+But the exchange will look at the performance of all specialists in all stocks
+IN DT VB MD NN IN DT NN IN RB NNS IN RB NNS
+
+Just thought you 'd like to know
+RB VBD PRP VBD VB TO VBP
+
+George Morton
+NNP NNP
+
+San Diego
+NNP NNP
+
+Hooker 's philosophy was to build and sell
+NNP POS NN VBD TO VB CC VB
+
+We want to build and hold
+PRP VB TO VB CC VB
+
+Not included in the bid are Bonwit Teller or Altman Hooker 's department-store chains
+RB VBD IN DT VBN VBP NNP NNP CC NNP NNP POS NN NNS
+
+The Merksamer chain is currently being offered for sale by First Boston Corp
+DT NNP NN VBZ RB VBG VBN IN NN IN NNP NNP NNP
+
+The week 's total was up from tons a year earlier
+DT NN POS NN VBD RB IN NNS DT NN JJR
+
+They will be available in minimum denominations of
+PRP MD VB JJ IN NN NNS IN
+
+The test may come today
+DT VB MD VBN NN
+
+Friday 's stock market sell-off came too late for many investors to act
+NNP POS NN NN NN VBD RB RB IN JJ NNS TO VB
+
+But fund managers say they 're ready
+CC NN NNS VBP PRP VBP JJ
+
+Many have raised cash levels which act as a buffer against steep market declines
+JJ VB VBD NN NNS WDT NN IN DT NN IN NN NN VBZ
+
+Mario Gabelli for instance holds cash positions well above in several of funds
+NNP NNP IN NN VBZ NN NNS RB IN IN JJ IN NNS
+
+Not all funds have raised cash levels of course
+RB RB NNS VB VBD NN NNS IN NN
+
+That was modestly higher than the and levels in August and September of
+DT VBD RB JJR IN NNP CC NNS IN NNP CC NNP IN
+
+Also persistent redemptions would force some fund managers to dump stocks to raise cash
+RB JJ NNS MD NN DT NN NNS TO VB NNS TO NN NN
+
+Many fund managers argue that now 's the time to buy
+JJ NN NNS VBP WDT RB VBZ DT VB TO VB
+
+But most investors were seeking share prices and other information
+CC JJS NNS VBD VBG NN NNS CC JJ NN
+
+Trading volume was only modestly higher than normal
+NNP NN VBD RB RB JJR IN JJ
+
+Still fund groups are n't taking any chances
+RB NN NNS VBP RB VBG DT NNS
+
+The centers normally are closed through the weekend
+DT VBZ RB VBP JJ IN DT NN
+
+Rowe Price Associates increased staff of phone representatives to handle investor requests
+NNP NNP NNP VBD NN IN NN NNS TO VB NN NNS
+
+Several fund managers expect a rough market this morning before prices stabilize
+JJ NN NNS VBP DT JJ NN DT NN IN NNS VB
+
+This is not a major crash she said
+DT VBZ RB DT JJ VB PRP VBD
+
+She added If they all were bullish I 'd really be upset
+PRP VBD IN PRP RB VBD JJ PRP VBD RB VB VB
+
+This time I do n't think we 'll get a panic reaction
+DT NN PRP VBP RB VBP PRP MD VBP DT NN NN
+
+Now those routes are n't expected to begin until Jan
+RB DT NNS VBP RB VBN TO VB IN NNP
+
+Those too are almost certain to arrive late
+DT RB VBP RB JJ TO VB RB
+
+I do n't think customers would like it very much
+PRP VBP RB VBP NNS MD VBP PRP RB RB
+
+The investment community for one has been anticipating a speedy resolution
+DT NN NN IN CD VBZ VBN VBG DT JJ NN
+
+Still he said it 's possible that the strike could last considerably longer
+RB PRP VBD PRP VBZ JJ IN DT VB MD JJ RB RBR
+
+I would n't expect an immediate resolution to anything
+PRP MD RB VBP DT JJ NN TO NN
+
+In separate developments
+IN JJ NNS
+
+The union is continuing to work through expired contract however
+DT NN VBZ VBG TO NN IN VBD NN RB
+
+The accord expired yesterday
+DT NN VBD NN
+
+The projects are big
+DT NNS VBP JJ
+
+long suit is proven ability to operate power plants he said
+RB NN VBZ VBN NN TO VBP NN NNS PRP VBD
+
+In a Centennial Journal article the fares were reversed
+IN DT NNP NNP NN DT NNS VBD VBN
+
+Kaufman Broad a home building company declined to identify the institutional investors
+NNP NNP DT NN NN NN VBD TO VB DT JJ NNS
+
+We usually operate in that conservative manner
+PRP RB VBP IN IN JJ NN
+
+Pricing cycles to be sure are nothing new for plastics producers
+NN NNS TO VB RB VBP NN JJ IN NNS NNS
+
+Now we 're at the bottom of the heap
+RB PRP VBP IN DT NN IN DT NN
+
+In the polyethylene market Quantum has claimed the largest share about
+VBN DT NN NN NNP VBZ VBN DT JJS NN IN
+
+China which had been putting in huge orders for polyethylene abruptly halted them
+NNP WDT VBD VBN VBG IN JJ NNS IN NN RB VBD PRP
+
+Now producers hope prices have hit bottom
+RB NNS VBP NNS VBP NN JJ
+
+Some say November
+DT VBP NNP
+
+I say
+PRP UH
+
+A quick turnaround is crucial to Quantum because cash requirements remain heavy
+DT JJ NN VBZ JJ TO NNP IN NN NNS VBP JJ
+
+Some analysts saw the payment as an effort also to dispel takeover speculation
+DT NNS NN DT NN IN DT NN RB TO VB NN NN
+
+On top of everything else Quantum confronts a disaster at plant in Morris Ill
+IN JJ IN NN JJ NNP VBZ DT NN IN NN IN NNP NNP
+
+Then a second explosion occurred
+RB DT JJ NN VBD
+
+Two workers died and six remain in the hospital
+CD NNS VBD CC CD VB RB DT NN
+
+And then you still have to negotiate
+CC RB PRP RB VB TO VB
+
+Not everything looks grim for Quantum
+RB NN NNS JJ IN NNP
+
+Quantum is also tightening grip on one large business outside chemicals propane marketing
+NNP VBZ RB VBG NN IN CD JJ NN IN NNS NN VBG
+
+Still Quantum has a crisis to get past right now
+RB NNP VBZ DT NN TO VB RB RB RB
+
+Some analysts speculate the weakening stock may yet attract a suitor
+DT NNS VBP DT VBG VB MD RB VBP DT NN
+
+The studies on closing the unit could n't be completed until now he said
+DT NNS IN NN DT NN MD RB VB VBN IN RB PRP VBD
+
+Revenue totaled million
+NNP VBD CD
+
+A spokeswoman confirmed that shipments to Phoenix started late last month
+DT NN VBD WDT NNS TO NNP VBD JJ JJ NN
+
+She said the company will study results from this market before expanding to others
+PRP VBD DT NN MD NN NNS IN DT NN IN VBG TO NNS
+
+How such remarks translate into policy wo n't become clear for months
+WRB JJ NNS VB IN NN MD RB VBN JJ IN NNS
+
+Many called it simply a contrast in styles
+JJ VBD PRP RB DT NN IN NNS
+
+But some saw it as a classic negotiating tactic
+CC DT VBD PRP IN DT JJ VBG NN
+
+I do n't feel either hard or soft
+PRP VBP RB VBP RB RB CC JJ
+
+I feel committed to the program of opening markets and expanding trade
+PRP NN JJ TO DT NN IN VBG NNS CC VBG NN
+
+The share of the Japanese market has been stuck around for years
+DT NN IN DT NNS NN VBZ VBN VBD RB IN NNS
+
+But she stressed I am against managed trade
+CC PRP VBD PRP VBP IN VBN VB
+
+In the year ended June Traditional reported net income of million or a share
+IN DT NN VBD NNP JJ VBD NN NN IN CD CC DT NN
+
+The company did n't break out fourth-quarter results
+DT NN VBD RB VB RB JJ NNS
+
+Terms were n't disclosed
+NNS VBD RB VBN
+
+He did n't forecast Phillips 's results
+PRP VBD RB VBD NNP POS NNS
+
+So too many analysts predict will Exxon Chevron and Amoco Corp
+RB RB JJ NNS VB MD NNP NNP CC NNP NNP
+
+It has plunged since July to around cents a pound
+PRP VBZ VBN IN NNP TO IN NNS DT NN
+
+Third-quarter profits from gasoline were weaker
+JJ NNS IN NN VBD JJR
+
+The excess supply pushed gasoline prices down in that period
+DT NN NN VBD NN NNS IN IN IN NN
+
+During the second half many companies posted record gasoline and chemical profits
+IN DT JJ NN JJ NNS VBD NN NN CC NN NNS
+
+While oil prices have been better than expected natural gas prices have been worse
+IN NN NNS VBP VBN RB IN VBN NN NN NNS VBP VBN RBR
+
+The main reason remains weather
+DT JJ NN VBZ NN
+
+Olivetti reportedly began shipping these tools in
+NNP RB VBD NN DT NNS IN
+
+However the agreement was canceled in June
+RB DT NN VBD VBN IN NNP
+
+Stocks were million bushels on May of this year
+NNS VBD CD NNS IN NNP IN DT NN
+
+Until then limited stocks are likely to keep prices near the level analysts say
+IN RB VBN NNS VBP RB TO VBP NNS JJ DT NN NNS VBP
+
+to liquidate futures positions equal to about million bushels of soybeans
+TO VB NNS NNS JJ TO IN CD NNS IN NNS
+
+Ferruzzi has denied it was trying to manipulate the soybean futures market
+NNP VBZ VBD PRP VBD VBG TO VB DT NN NNS NN
+
+Looking ahead to other commodity markets this week
+VBG RB TO JJ NN NNS DT NN
+
+It settled with a loss of cents at a pound
+PRP VBN IN DT NN IN NNS IN DT NN
+
+New York futures prices have dropped significantly from more than a pound at midyear
+NNP NNP NNS NNS VB VBD RB IN JJR IN DT NN IN NN
+
+Energy
+NNP
+
+Spielvogel said he would n't launch a hostile bid
+NNP VBD PRP MD RB NN DT JJ VB
+
+But otherwise it would undoubtedly come back with an offer by management
+CC RB PRP MD RB VB RB IN DT NN IN NN
+
+He was brought in to turn around the company
+PRP VBD VBN IN TO VB RB DT NN
+
+Executives at Prudential-Bache Securities a Backer Spielvogel client that is reviewing account declined comment
+NNS IN NNP NNPS DT NNP NNP NN DT VBZ VBG NN VBN VB
+
+Ad Notes
+NNP NNPS
+
+The account had billed about million in according to Leading National Advertisers
+DT NN VBD VBN IN CD IN VBG TO VBG NNP NNPS
+
+Samsung already owns Korea First Advertising that country 's largest agency
+NNP RB VBZ NNP NNP NNP IN NN VBZ JJS NN
+
+The company asked for a extension when the financial reports were due
+DT NN JJ IN DT NN WRB DT JJ NNS VBD RB
+
+Retailers are just in disarray
+NNS VBP RB IN NN
+
+At Dow Jones third-quarter net income fell from the year-earlier period
+IN NNP NNP JJ JJ NN VBD IN DT JJ NN
+
+Ad linage at the Journal fell in the third quarter
+NN NN IN DT NNP VBD IN DT JJ NN
+
+GM officials told workers late last week of the following moves
+NNP NNS VBD NNS JJ JJ NN IN DT VBG VBZ
+
+Production of full-sized vans will be consolidated into a single plant in Flint Mich
+NNP IN JJ NNS NN VB JJ IN DT JJ NN IN NNP NNP
+
+That announcement left union officials in Van Nuys and Oklahoma City uncertain about futures
+DT NN VBD NN NNS IN NNP NNP CC NNP NNP JJ IN NNS
+
+Canadian investment rules require that big foreign takeovers meet that standard
+NNP NN NNS VBP WDT JJ JJ NNS VBP WDT NN
+
+Both Merieux and Connaught are biotechnology research and vaccine manufacturing concerns
+JJR NN CC NNP VBP NN NN CC NN VBG NNS
+
+The government 's action was unusual
+DT NN POS NN VBD JJ
+
+Investment Canada declined to comment on the reasons for the government decision
+NNP NNP VBD TO NN IN DT NNS IN DT NN NN
+
+The university is considering a settlement proposal made by Connaught
+DT NN VBZ VBG DT NN NN VBN IN NNP
+
+French state-owned Rhone-Poulenc holds of Merieux
+JJ JJ NNP VBZ IN NNP
+
+The exchange ratio was never established
+DT NN NN VBD RB VBN
+
+Proceeds will be used to eliminate and restructure bank debt
+NNS NN VB VBN TO VB CC NN NN NN
+
+In the third quarter of Merck earned million or cents a share
+IN DT JJ NN IN NNP VBD CD CC NNS DT NN
+
+In Rahway a Merck spokesman said the company does n't make earnings projections
+IN NNP DT NNP NN VBD DT NN VBZ RB VBP NNS NNS
+
+In last year 's third quarter Lilly earned million or a share
+IN JJ NN POS NN NN NNP VBD CD CC DT NN
+
+In Indianapolis Lilly declined comment
+IN NNP NNP VBD NN
+
+The company was officially merged with Bristol-Myers earlier this month
+DT NN VBD RB VBN IN NNP RBR DT NN
+
+Bristol-Myers declined to comment
+NNP VBD TO VB
+
+In the third quarter last year Pfizer earned million or a share
+IN DT JJ NN JJ NN NNP VBD CD CC DT NN
+
+In New York the company declined comment
+IN NNP NNP DT NN VBN VB
+
+In Kalamazoo Upjohn declined comment
+IN NNP NNP VBD NN
+
+It said analysts had been expecting a small profit for the period
+PRP VBD NNS VBD VBN VBG DT JJ NN IN DT NN
+
+Revenue is expected to be up modestly from the million reported a year ago
+NNP VBZ VBN TO VB RB RB IN DT CD VBD DT NN RB
+
+The company said Wilson 's resignation was n't related to the sales shortfall
+DT NN VBD NNP POS NN VBD RB VBN TO DT NNS NN
+
+high for the past year was a share
+JJ IN DT IN NN VBD DT NN
+
+She analyzed families by sleeping arrangements
+PRP VBD NNS IN VBG NNS
+
+They painted the apartment orange pink and white according to instructions
+PRP VBN DT NN NN JJ CC JJ VBG TO NNS
+
+An solution explains Friedman
+DT NN VBZ NNP
+
+But it does n't take too many lines to figure Harry out
+CC PRP VBZ RB VB RB JJ NNS TO NN NNP RP
+
+He 's a bore
+PRP VBZ DT VBD
+
+The area is contaminated with lead zinc and other metals
+DT NN VBZ JJ IN NN NN CC JJ NNS
+
+The agreement and consent decree are subject to court approval the company said
+DT NN CC NN NN VBP NN TO NN NN DT NN VBD
+
+Gulf 's net worth after those transaction must be at least million
+NNP POS NN JJ IN DT NN MD VB IN JJS CD
+
+I did n't bother calling anybody I did n't even turn on TV
+PRP VBD RB VB VBG NN PRP VBD RB RB NN IN NN
+
+There are about stores for rent up from a more typical range of to
+EX VBP RB NNS IN VB RB IN DT RBR JJ NN IN TO
+
+The same factors limiting demand for office space have affected retailing
+DT JJ NNS VBG NN IN NN NN VBP VBN VBG
+
+Certainly the recent drop in prices does n't mean Manhattan comes cheap
+RB DT JJ NN IN NNS VBZ RB VBP NNP VBZ RB
+
+The New York Stock Exchange said two securities will begin trading this week
+DT NNP NNP NNP NNP VBD CD NNS NN VB NN DT NN
+
+It will continue to trade on the International Stock Exchange London
+PRP MD VB TO NN IN DT NNP NNP NNP NNP
+
+The American Stock Exchange listed shares of two companies
+DT NNP NNP NNP VBN NNS IN CD NNS
+
+It had traded over-the-counter
+PRP VBD VBN JJ
+
+The pharmaceuticals maker had traded over-the-counter
+DT NNS NN VBD VBN JJ
+
+In these four for instance the RTC is stuck with billion in bad assets
+IN DT CD IN NN DT NNP VBZ JJ IN CD IN JJ NNS
+
+But it 's uncertain whether these institutions will take those steps
+CC PRP VBZ JJ IN DT NNS NN VB DT NNS
+
+NCNB will acquire University Federal Savings Association Houston which had assets of billion
+NNP NN VB NNP NNP NNP NNP NNP WDT VBD NNS IN CD
+
+NCNB also acquired Freedom Savings Loan Association Tampa which had total assets of million
+NNP RB VBD NNP NNP NNP NNP NNP WDT VBN VBP NNS IN CD
+
+NCNB will pay the RTC a premium of million for billion in deposits
+NNP MD NN DT NNP DT NN IN CD IN CD IN NNS
+
+Meridian will pay a premium of million to assume billion in deposits
+NNP MD NN DT NN IN CD TO VBP CD IN NNS
+
+The following issues were recently filed with the Securities and Exchange Commission
+DT VBG NNS VBD RB VBN IN DT NNPS CC NNP NNP
+
+American Cyanamid offering of common shares via Merrill Lynch Capital Markets
+NNP NNP VBG IN JJ NNS IN NNP NNP NNP NNPS
+
+Trans World Airlines offering of million senior notes via Drexel Burnham
+NNP NNP NNP VBG IN CD JJ NNS IN NNP NNP
+
+We are trying to create quality and involvement
+PRP VBP VBG TO VB NN CC NN
+
+Still Time 's move is being received well once again
+RB NNP POS NN VBZ VBG VBN RB RB RB
+
+A few drops in circulation are of no consequence
+DT JJ NNS IN NN VBP IN RB NN
+
+They said follow CNN he told reporters
+PRP VBD VBP NNP PRP VBD NNS
+
+But for all success CNN has hit a plateau
+CC IN RB NN NNP VBZ NN DT NN
+
+You ca n't live on that
+PRP MD RB VBP RB WDT
+
+But that wo n't be easy
+CC RB MD RB VB RB
+
+CNN wants to change viewers ' habits
+NNP VBZ TO VBP NNS POS NNS
+
+That 's less than one-third the time that viewers watch the major broadcast networks
+DT VBZ JJR IN NN DT NN IN NNS NN DT JJ VBD NNS
+
+strategy in the past has been to serve as a TV wire service
+NN IN DT IN VBZ VBN TO VB RB DT NN NN NN
+
+Until now CNN has featured Hollywood gossip show during the key evening period
+IN RB NNP VBZ VBD NNP NN NN IN DT NN NN NN
+
+Some in the industry are skeptical
+DT IN DT NN VBP JJ
+
+But to improve they 've really got to make the investment in people
+VBD TO VBP PRP VBP RB VBD TO VBP DT NN IN NNS
+
+million households were tuned to CNN during an average viewing minute
+CD NNS VBD VBN TO NNP IN DT NN VBG NN
+
+But the outcome of a legal dispute almost always turns on the facts
+IN DT NN IN DT JJ VBP RB RB VBZ IN DT NNS
+
+Boston
+NNP
+
+Valley Federal with assets of billion is based in Van Nuys
+NNP NNP IN NNS IN CD VBZ VBN IN NNP NNP
+
+Imperial based in San Diego is the parent of Imperial Savings Loan
+NNP VBN IN NNP NNP VBZ DT NN IN NNP NNP NNP
+
+Call it the we 're too broke to fight defense
+NNP PRP DT PRP VBP RB VBD TO NN NN
+
+A new president was n't named
+DT JJ NN VBD RB VBN
+
+Most of those freed had spent at least years in prison
+JJS IN DT VBN VBD VBN IN JJS NNS IN NN
+
+But release within the next few months is widely expected
+CC NN IN DT IN JJ NNS VBZ RB VBN
+
+He reiterated opposition to such funding but expressed hope of a compromise
+PRP VBD NN TO JJ VBG CC VBD NN IN DT VB
+
+The device was replaced
+DT NN VBD VBN
+
+More than others escaped to West Germany through Hungary over the Weekend
+JJR IN NNS VBN TO NNP NNP IN NNP IN DT NNP
+
+DWG is a holding company controlled by Posner
+NNP VBZ DT VBG NN JJ IN NNP
+
+I would say this is not bad news this is a blip he said
+PRP MD NN DT VBZ RB JJ NN DT VBZ DT NN PRP VBD
+
+The core rate is not really out of line
+DT NN NN VBZ RB RB RB IN NN
+
+Food prices declined after climbing in August
+NNP NNS VBD IN VBG IN NNP
+
+Meanwhile the retail sales report showed that car sales rose in September to billion
+RB DT NN NNS NN VBD WDT NN NNS VBD IN NNP TO CD
+
+City Federal operates banking offices in New Jersey and Florida
+NNP NNP VBZ NN NNS IN NNP NNP CC NNP
+
+Since April it has pared high-yield bond holdings to about million from billion
+IN NNP PRP VBZ VBN JJ NN NNS TO IN CD IN CD
+
+In American Stock Exchange composite trading Friday CenTrust common shares closed at down cents
+IN NNP NNP NNP JJ NN NNP NNP JJ NNS JJ IN RB NNS
+
+In the third quarter for instance CenTrust added million to general reserves
+IN DT JJ NN IN NN NNP VBD CD TO JJ NNS
+
+The woman won the bet
+DT NN NN DT VB
+
+Most British programming is more of an acquired taste
+JJS JJ VBG VBZ JJR IN DT VBD NN
+
+European drama has had better though still mixed fortunes
+NNP NN VBZ VBD RB RB RB VBN NNS
+
+The most popular such shows focus on narrow national concerns
+DT JJS JJ JJ VBZ NN IN JJ JJ NNS
+
+But frequently there is n't much choice
+CC RB RB VBZ RB RB NN
+
+The result is a new and huge appetite for programming
+DT NN VBZ DT JJ CC JJ NN IN NN
+
+The companies hope for a final agreement by year-end
+DT NNS NN IN DT JJ NN IN NN
+
+At least one potential GEC partner Matra insists it is n't interested in Ferranti
+IN JJS CD JJ NNP NN NNP VBZ PRP VBZ RB JJ IN NNP
+
+The venture 's importance for Thomson is great
+DT NN POS NN IN NNP VBZ JJ
+
+Thomson feels the future of defense business depends on building cooperation with other Europeans
+NNP VBZ DT NN IN NN NN VBZ IN NN NN IN JJ NNPS
+
+H
+NNP
+
+It 's very much a growing concern
+PRP VBZ RB RB DT VBG NN
+
+But when something is inevitable you learn to live with it he said
+CC WRB NN VBZ JJ PRP VB TO JJ IN PRP PRP VBD
+
+Inland said third-quarter results will be announced later this week
+NNP VBD NN NNS NN VB VBD RB DT NN
+
+But that was all of three months ago
+CC IN VBD DT IN CD NNS RB
+
+Last week Microsoft said it expects revenue for first quarter ended to increase
+JJ NN NNP VBD PRP VBZ NN IN RB NN VBN TO VB
+
+The announcement caused the company 's stock to surge to close at a share
+DT NN VBN DT NN POS VB TO VB TO JJ IN DT NN
+
+International Business Machines also is expected to report disappointing results
+NNP NNP NNP RB VBZ VBN TO NN JJ NNS
+
+Apple Computer meanwhile is expected to show improved earnings for the period ended Sept
+NNP NNP RB VBZ VBN TO NN JJ NNS IN DT NN VBD NNP
+
+Another contradictory message comes from Businessland a computer retailer
+DT JJ NN VBZ IN NNP DT NN NN
+
+Companies will continue to war over standards
+NNS NN VB TO NN IN NNS
+
+The short-term outlook for Adobe 's business however appears strong
+DT JJ NN IN NNP POS NN RB VBZ JJ
+
+The program is aimed at improving the quality of printed material
+DT NN VBZ VBN IN VBG DT NN IN VBN NN
+
+Aldus officials could n't be reached for comment
+NNP NNS MD RB VB VBN IN VB
+
+A bus is the data highway within a computer
+DT NN VBZ DT NNS NN IN DT NN
+
+In personal computers Apple Compaq and IBM are expected to tighten hold on business
+IN JJ NNS NNP NNP CC NNP VBP VBN TO VB NN IN NN
+
+Some lagging competitors even may leave the personal computer business altogether
+DT VBG NNS RB MD NN DT JJ NN NN RB
+
+But they will have to act quickly
+CC PRP MD VB TO VB RB
+
+For Midwestern States
+IN JJ NNPS
+
+So are Indiana Ohio and Michigan
+RB VBP NNP NNP CC NNP
+
+The gains to be sure are rather small
+DT NNS TO VB RB VBP RB JJ
+
+The Northeast has been holding own in the population race
+DT NNP VBZ VBN NN JJ IN DT NN NN
+
+And even after losing a spouse more of the elderly are staying independent
+CC RB IN VBG DT NN JJR IN DT JJ VBP VBG JJ
+
+This does n't mean they 're less likely to live alone however
+DT VBZ RB VBP PRP VBP CC JJ TO VB RB RB
+
+That share has remained at about since
+DT NN VBZ VBN IN RB IN
+
+In of those aged to lived with relatives other than spouses down from in
+IN IN DT VBN TO VBN IN NNS JJ IN NNS IN IN RP
+
+Like younger counterparts the older elderly are less likely to live with other relatives
+IN JJR NNS DT JJR JJ VBP CC JJ TO JJ IN JJ NNS
+
+The likelihood of living alone beyond the age of has increased to from
+DT NN IN VBG RB IN DT NN IN VBZ JJ TO IN
+
+Average household income for the sample was and average net assets were reported as
+NNP NN NN IN DT NN VBD CC NN JJ NNS VBD VBN RB
+
+Twenty percent do n't even feel they are financially well off
+CD NN VB RB RB VBP PRP VBP RB RB RP
+
+Many of the affluent are n't comfortable with themselves either
+JJ IN DT JJ VBP RB JJ IN PRP CC
+
+About do n't feel they 're more able than others
+RB VBP RB VBP PRP VBP JJR JJ IN NNS
+
+Odds and Ends
+NNS CC NNPS
+
+The share of minorities in those positions has risen to from
+DT NN IN NNS IN DT NNS VBZ VBN TO IN
+
+About are women and are part-time students
+CC VBP NNS CC VBP JJ NNS
+
+This small Dallas suburb 's got trouble
+DT JJ NNP NN POS VBD NN
+
+But a majority of the Addison council did n't buy those arguments
+CC DT NN IN DT NNP NN VBD RB NN DT NNS
+
+Now comes the pool flap
+RB VBZ DT NN NN
+
+I thought this was all taken care of in The Music Man
+PRP NN DT VBD RB VBN NN IN IN DT NNP NNP
+
+Anita Davis
+NNP NNP
+
+Austin Texas
+NNP NNP
+
+Of course Mason did not use neutral language
+IN NN NNP VBD RB NN JJ NN
+
+People are fast leaving the place where he is stuck
+NNS VBP RB VBG DT NN WRB PRP VBZ VBN
+
+But these are not the differences that make headlines
+CC DT VBP RB DT NNS IN VBP NNS
+
+Philips of the Netherlands
+NNP IN DT NNPS
+
+Charles Lawson who had been acting chief executive since June will continue as chairman
+NNP NNP WP VBD VBN VBG NN JJ IN NNP NN VB RB NN
+
+We do n't need this as a way to get capital gains he said
+PRP VBP RB NN DT IN DT NN TO VB NN VBZ PRP VBD
+
+House Budget Committee Chairman Leon Panetta Calif
+NNP NNP NNP NNP NNP NNP NNP
+
+Such legislation must be enacted by the end of the month
+JJ NN MD VB VBN IN DT NN IN DT NN
+
+The Senate bill was pared back in an attempt to speed deficit-reduction through Congress
+DT NNP NN VBD VBN RB IN DT VB TO NN JJ IN NNP
+
+The House appears reluctant to join the senators
+DT NNP VBZ JJ TO VB DT NNS
+
+Although I am encouraged by the Senate action said Chairman Dan Rostenkowski Ill
+IN PRP VBP VBN IN DT NNP NN VBD NNP NNP NNP NNP
+
+Another big question hovering over the debate is what President Bush thinks
+DT JJ NN VBG IN DT NN VBZ WP NNP NNP VBZ
+
+Bentsen said he hopes the Senate will consider that measure soon
+NNP VBD PRP VBZ DT NNP MD VBP WDT NN RB
+
+Things had just gone too far
+NNS VBD RB VBN RB RB
+
+Dole said that the move required sacrifice by every senator
+NNP VBD WDT DT NN VBN NN IN DT NN
+
+The measure also includes spending cuts and increases in federal fees
+DT VB RB VBZ NN NNS CC NNS IN JJ NNS
+
+Among provisions
+IN NNS
+
+The plan would impose a brief freeze on physician fees next year
+DT VB MD VB DT NN NN IN NN NNS JJ NN
+
+A similar provision is in the House version
+DT JJ NN VBZ IN DT NNP NN
+
+John Yang contributed to this article
+NNP NNP VBD TO DT NN
+
+I am in the communications field above entry level
+PRP VBP IN DT NNS NN IN NN NN
+
+paper needs a serious reality check
+NN VBZ DT JJ NN VB
+
+Cambridge Mass
+NNP NNP
+
+Columbia Savings is a major holder of so-called junk bonds
+NNP NNP VBZ DT JJ NN IN JJ NN NNS
+
+Columbia Savings officials were n't available for comment on the downgrade
+NNP NNP NNS VBD RB JJ IN NN IN DT NN
+
+I think it was a little premature on part
+PRP VBP PRP VBD DT JJ JJ IN NN
+
+Joseph Granville
+NNP NNP
+
+Everyone will tell you that this time is different from he says
+NN MD VBP PRP IN DT NN VBZ JJ IN PRP VBZ
+
+Right now they 're telling me to get the hell out and stay out
+RB RB PRP VBP VBG PRP TO VBP DT NN IN CC NN RP
+
+I see no major support until
+PRP VB RB JJ NN IN
+
+I see a possibility of going to this month
+PRP VBP DT NN IN VBG TO DT NN
+
+Most people he says have no idea what a massacre pattern looks like
+JJS NNS PRP VBZ VBP RB NN WP DT NN NN VBZ VBP
+
+Friday 's big drop she says was not a crash
+NNP POS JJ VBP PRP VBZ VBD RB DT VB
+
+This was an October massacre like those that occurred in and
+DT VBD DT NNP NN JJ DT IN VBN IN CC
+
+Now as in those two years stock market indicators are positive
+RB RB IN DT CD NNS NN NN NNS VBP JJ
+
+So she thinks the damage will be short-lived and contained
+RB PRP VBZ DT VB MD VB JJ CC VBN
+
+Those corrections lasted one to four weeks and took the market down she says
+DT NNS VBD CD TO CD NNS CC VBD DT VB RB PRP VBZ
+
+advice is to buy
+NN VBZ TO VB
+
+Ned Davis
+NNP NNP
+
+But Davis views are widely respected by money managers says he expects no crash
+CC NNP NNS VBP RB JJ IN NN NNS VBZ PRP VBZ RB NN
+
+There was a unique combination in he says
+EX VBD DT JJ NN IN PRP VBZ
+
+Margin debt was at a record high
+NN NN VBD IN DT NN JJ
+
+There was tremendous public enthusiasm for stock mutual funds
+EX VBD JJ JJ NN IN NN JJ NNS
+
+A hundred billion dollars in stock was subject to it
+DT CD CD NNS IN NN VBD NN TO PRP
+
+Over the next several months though he says things look bad
+IN DT IN JJ NNS IN PRP VBZ NNS NN JJ
+
+I think the market will be heading down into November he says
+PRP VBP DT VB MD VB VBG RB IN NNP PRP VBZ
+
+We will probably have a year-end rally and then go down again
+PRP MD RB VBP DT NN NN CC RB VB RB RB
+
+That would be a normal bear market he says
+DT MD VB DT JJ VBP NN PRP VBZ
+
+I guess that 's forecast
+PRP VBP WDT POS NN
+
+I do n't think the market is going through another October
+PRP VBP RB VBP DT NN VBZ VBG IN DT NNP
+
+Unlike interest rates have been falling this year
+IN NN NNS VBP VBN VBG DT NN
+
+Unlike the dollar has been strong
+IN DT NN VBZ VBN JJ
+
+So it 's a very mixed bag
+RB PRP VBZ DT RB VBN NN
+
+I see this as a reaction to the whole junk bond explosion he says
+PRP VBP DT IN DT NN TO DT NN NN NN NN PRP VBZ
+
+This has both made investors uneasy and the corporations more vulnerable
+DT VBZ DT VBD NNS JJ CC DT NNS JJR JJ
+
+Nevertheless he says a depression does n't appear likely
+RB PRP VBZ DT NN VBZ RB VBP RB
+
+Mario Gabelli
+NNP NNP
+
+Companies are still going to buy companies around the world he says
+NNS VBP RB VBG TO VBP NNS IN DT NN PRP VBZ
+
+Jim Rogers
+NNP NNP
+
+Friday you could n't sell dollars he says
+NNP PRP MD RB VBP NNS PRP VBZ
+
+Dealers would give you a quote but then refuse to make the trade
+NNS MD VBP PRP DT NN CC RB VB TO VBP DT VB
+
+Many people now claim to have predicted the crash
+JJ NNS RB VB TO VBP VBN DT VB
+
+If not We could go to very soon
+IN RB PRP MD VB TO RB RB
+
+Frank Terrizzi
+NNP NNP
+
+Renaissance is keeping money entirely in cash equivalents primarily Treasury bills
+NNP VBZ VBG NN RB IN NN NNS RB NNP NNS
+
+T-bills probably are the right place to be he says
+NNS RB VBP DT RB VB TO VB PRP VBZ
+
+Yes he did
+RB PRP VBD
+
+He used about words defending the witnesses ' constitutional rights
+PRP VBN RB NNS VBG DT NNS POS JJ NNS
+
+That certainly is not the supposed distorted reading indicated by Lantos
+DT RB VBZ RB DT VBN VBN NN JJ IN NNP
+
+That committee does not deal with any possible criminal activity at HUD
+DT NN VBZ RB NN IN DT JJ JJ NN IN NNP
+
+colleagues and I fully realize we are not a court etc
+NNS CC PRP RB VBP PRP VBP RB DT NN FW
+
+Apparently verdict is in
+RB NN VBZ FW
+
+Right now they 're pursuing evidence
+RB RB PRP VBP VBG NN
+
+No doubt that 's partially true
+DT NN DT VBZ RB JJ
+
+Everything that Lantos says in letter is partially true
+NNP IN NNP VBZ IN NN VBZ RB JJ
+
+Of course we 've also got a judiciary that seeks the same objective
+IN NN PRP VBP RB VBD DT NN DT VBZ DT JJ JJ
+
+The system is the problem not an individual member
+DT NN VBZ DT NN RB DT NN NN
+
+Individuals can always have hands slapped
+NNS MD RB VBP NNS VBD
+
+I do not by any means defend HUD management
+PRP VBP RB IN DT VBZ VBP NNP NN
+
+the risk of such prosecution a court may order the defendant to testify
+DT NN IN JJ NN DT NN MD NN DT NN TO VB
+
+It was like the Friday before Black Monday two years ago
+PRP VBD JJ DT NNP IN NNP NNP CD NNS RB
+
+Ten points of the drop occurred during the last minutes of trading
+CD NNS IN DT NN VBN IN DT JJ NNS IN NN
+
+It was n't intentional we were all busy
+PRP VBD RB JJ PRP VBD RB JJ
+
+But he added you can only take one call at a time
+CC PRP VBD PRP MD RB VBP PRP NN IN DT NN
+
+On Friday some market makers were selling again traders said
+IN NNP DT NN NNS VBD VBG RB NNS VBD
+
+Everyone was hitting everyone else 's bid he said
+NN VBD VBG NN JJ POS NN PRP VBD
+
+Two years ago we were carrying huge inventories and that was the big culprit
+CD NNS RB PRP VBD NN JJ NNS CC IN VBD DT JJ NN
+
+The pace of trading was orderly he said
+DT NN IN NN VBD JJ PRP VBD
+
+But they are worried
+CC PRP VBP VBN
+
+Nasdaq 's biggest stocks were hammered
+NNP VBZ JJS NNS VBD VBN
+
+The Nasdaq Financial Index of giant insurance and banking stocks dropped or to
+DT NNP NNP NNP IN NN NN CC NN NNS VBD CC TO
+
+The OTC market has only a handful of takeover-related stocks
+DT NNP NN VBZ RB DT NN IN JJ NNS
+
+But they fell sharply
+CC PRP VBD RB
+
+McCaw lost or to
+NNP VBD CC TO
+
+LIN Broadcasting dropped or to
+NNP NNP VBD CC TO
+
+The turnover in both issues was roughly normal
+DT NN IN CC NNS VBD RB JJ
+
+The issues of companies with ties to the junk bond market also tumbled Friday
+DT NNS IN NNS IN NNS TO DT NN NN NN RB VBD NNP
+
+Friday October
+NNP NNP
+
+PRIME RATE
+NNP NNP
+
+The base rate on corporate loans at large money center commercial banks
+DT NN NN IN JJ NNS IN JJ NN NN JJ NNS
+
+FEDERAL FUNDS high low near closing bid offered
+NNP NNS JJ JJ IN NN NN VBN
+
+Reserves traded among commercial banks for overnight use in amounts of million or more
+NNS JJ IN JJ NNS IN RB NN IN NNS IN CD CC RBR
+
+Source Fulton Prebon
+NN NNP NNP
+
+Inc
+NNP
+
+DISCOUNT RATE
+NNP NNP
+
+The charge on loans to depository institutions by the New York Federal Reserve Bank
+DT NN IN NNS TO NN NNS IN DT NNP NNP NNP NNP NNP
+
+CALL MONEY to
+NNP NNP TO
+
+The minimum unit is
+DT NN NN VBZ
+
+Typical rates in the secondary market one month three months six months
+JJ NNS IN DT JJ NN CD NN CD NNS CD NNS
+
+BANKERS ACCEPTANCES days days days days days days
+NNS NNS NNS NNS NNS NNS NNS NNS
+
+Negotiable bank-backed business credit instruments typically financing an import order
+JJ JJ NN NN NNS RB NN DT NN NN
+
+FOREIGN PRIME RATES Canada Germany Japan Switzerland Britain
+NNP NNP NNPS NNP NNP NNP NNP NNP
+
+These rate indications are n't directly comparable lending practices vary widely by location
+DT NN NNS VBP RB RB JJ VBG NNS VBP RB IN NN
+
+FEDERAL HOME LOAN MORTGAGE CORP
+NNP NNP NNP NNP NNP
+
+Freddie Mac Posted yields on mortgage commitments for delivery within days
+NNP NNP VBN NNS IN NN NNS IN NN IN NNS
+
+Source Telerate Systems Inc
+NN NNP NNP NNP
+
+Source Telerate Systems Inc
+NN NNP NNP NNP
+
+MERRILL LYNCH READY ASSETS TRUST
+NNP NNP NNP NNP NNP
+
+And they plan to buy more today
+CC PRP VB TO VB RBR NN
+
+They could still panic and bail out of the market
+PRP MD RB NN CC VB RB IN DT NN
+
+But performance indicates that they wo n't abandon stocks unless conditions get far worse
+CC NN VBZ WDT PRP MD RB VB NNS IN NNS VB RB RBR
+
+Rogers spent half cash on hand Friday for favorite stocks that have fallen apart
+NNP VBD NN NN IN NN NNP IN JJ NNS IN VBP VBN RB
+
+I waited to make sure all the program trades had kicked through he said
+PRP VBD TO VB RB RB DT NN NNS VBN VBD RB PRP VBD
+
+Then he jumped into the market I spent million in the last half-hour
+RB PRP VBD IN DT VBP PRP VBD CD IN DT JJ JJ
+
+There is no justification on the fundamental level for this crash
+EX VBZ RB NN IN DT JJ NN IN DT VB
+
+It can happen before you can turn around
+PRP MD VB RB PRP MD NN RP
+
+Even without portfolio insurance market conditions were grim Friday money managers said
+RB IN NN NN NN NNS VBD JJ NNP NN NNS VBD
+
+All that now has changed
+DT IN RB VBZ VBN
+
+Bolar has denied that it switched the brand-name product for own in such testing
+NNP VBZ VBD WDT PRP VBD DT JJ NN IN JJ IN JJ VBG
+
+I 'd like to see that initiative and I have n't
+PRP VBD VB TO VBP WDT NN CC PRP VB RB
+
+There is n't a big shot an agenda
+EX VBZ RB DT JJ NN DT NN
+
+A few hours later the stock market dropped points
+DT JJ NNS JJ DT NN NN VBD NNS
+
+Consider this
+VB DT
+
+said yesterday on NBC News 's Meet the Press
+VBD NN IN NNP NNP POS NNP DT NNP
+
+That did not happen
+DT VBD RB VB
+
+They learned they could survive it without much problem
+PRP VBD PRP MD VBP PRP IN RB NN
+
+In that case there will be plenty of blame to go around
+IN IN NN RB MD VB RB IN VB TO VB RB
+
+said yesterday
+VBD NN
+
+But some players were quick to seize the moment
+CC DT NNS VBD JJ TO VB DT NN
+
+billion of three-month and six-month bills
+CD IN JJ CC JJ NNS
+
+billion of bills
+CD IN NNS
+
+Connecticut Light Power Three million shares of preferred via competitive bidding
+NNP NNP NNP CD CD NNS IN JJ IN JJ VBG
+
+Crude Carriers Four million common shares via Salomon Brothers Inc
+NNP NNS CD CD JJ NNS IN NNP NNPS NNP
+
+Baldwin Technology million Class A shares via Smith Barney Harris Upham Co
+NNP NNP CD NNP DT NNS IN NNP NNP NNP NNP NNP
+
+Chase Manhattan million common shares via Goldman Sachs Co
+NNP NNP CD JJ NNS IN NNP NNP NNP
+
+Eastern Utilities Associates million common shares via PaineWebber Inc
+NNP NNPS NNPS CD JJ NNS IN NNP NNP
+
+Employee Benefit Plans Two million common shares via Dean Witter Capital Markets
+NNP NNP NNS CD CD JJ NNS IN NNP NNP NNP NNPS
+
+Exabyte common shares via Goldman Sachs
+NNP JJ NNS IN NNP NNP
+
+Oregon million of general obligation veterans ' tax notes Series via competitive bid
+NNP CD IN NN NN NNS POS NN VBZ NNP IN JJ VB
+
+Washington million of general obligation tax revenue notes Series via competitive bid
+NNP CD IN NN NN NN NN VBZ NNP IN JJ VB
+
+Virginia Public School Authority of school financing bonds Series B resolution via competitive bid
+NNP NNP NNP NNP IN NN VBG NNS NNP NNP NN IN JJ VB
+
+Tennessee Valley Authority Three billion of power bonds via First Boston Corp
+NNP NNP NNP CD CD IN NN NNS IN NNP NNP NNP
+
+But he 's not so sure about everyone else
+CC PRP VBZ RB RB JJ IN NN JJ
+
+If I sell now I 'll take a big loss
+RB PRP VB RB PRP MD VBP DT JJ NN
+
+Others wonder how many more of these shocks the small investor can stand
+NNS NN WRB JJ RBR IN DT NNS DT JJ NN MD VBP
+
+We all assumed October was a one-time shot said San Francisco attorney David Greenberg
+PRP RB VBD NNP VBD DT JJ VBN VBD NNP NNP NN NNP NNP
+
+Now it 's happening again
+RB PRP VBZ VBG RB
+
+This time he 's ready to buy in when the panic wears off
+DT NN PRP VBZ JJ TO VB RB WRB DT NN VBZ RP
+
+Still he adds We ca n't have this kind of thing happen very often
+RB PRP VBZ PRP MD RB VBP DT NN IN NN VB RB RB
+
+When the little guy gets frightened the big guys hurt badly
+JJ DT RB NN VBZ JJ DT JJ NNS VBN RB
+
+Merrill Lynch ca n't survive without the little guy
+NNP NNP MD RB VBP IN DT RB NN
+
+But it 's not only the stock market that has some small investors worried
+CC PRP VBZ RB RB DT NN NN DT VBZ DT JJ NNS JJ
+
+I got out in
+PRP VBD RB IN
+
+I just stopped by to see how much I would have lost
+PRP RB VBN IN TO VBP WRB RB PRP MD VBP VBN
+
+The crowded field for notebook-sized computers is about to become a lot more crowded
+JJR VBD NN IN JJ NNS VBZ RB TO VBN DT NN JJR VBN
+
+The market is so new nobody knows yet how big it can be
+DT NN VBZ RB JJ NN VBZ RB WRB JJ PRP MD VB
+
+It 's huge
+PRP VBZ JJ
+
+Making computers smaller often means sacrificing memory
+VBG NNS JJR RB VBZ VBG NN
+
+Compaq is already taking aim at Zenith 's market share
+NNP VBZ RB VBG NN IN NNP POS NN NN
+
+Analysts do n't see it that way
+NNS VB RB VBP PRP IN NN
+
+Grumman received an million Navy contract to upgrade aircraft electronics
+NNP VBN DT CD NNP NN TO NN NN NN
+
+The wholesale price index stood at compared with a base of
+DT JJ NN NN VBD IN VBN IN DT NN IN
+
+Stocks of utilities held up relatively better than other market sectors during the sell-off
+NNS IN NNS VBN RB RB RBR IN JJ NN NNS IN DT NN
+
+Of course many more issues hit new lows
+IN NN JJ RBR NNS NN JJ NNS
+
+IBM closed at down
+NNP JJ IN RP
+
+Ford Motor said it acquired of the shares in Jaguar PLC
+NNP NNP VBD PRP VBD IN DT NNS IN NNP NNP
+
+GM said it still is talking with Jaguar about acquiring a minority interest
+NNP VBD PRP RB VBZ VBG IN NNP IN VBG DT NN NN
+
+He said Schwab had increased margin requirements so customers have more of a cushion
+PRP VBD NNP VBD VBD NN NNS IN NNS VBP JJR IN DT VB
+
+He added We learned a lesson in about volatility
+PRP VBD PRP VBD DT NN IN IN NN
+
+Northwest and Midway are two of the five airlines with which Budget has agreements
+NNP CC NNP VBP CD IN DT CD NNS IN WDT NNP VBZ NNS
+
+Analysts and competitors however doubt the numbers were that high
+NNS CC NNS RB NN DT NNS VBD WDT NN
+
+Brown Sons
+NNP NNPS
+
+That will spur Tandem 's growth
+DT MD VB NNP POS NN
+
+Obviously IBM can give bigger discounts to users immediately said Weiss
+RB NNP MD VBP JJR NNS TO NNS RB VBD NNP
+
+The answer is n't price reductions but new systems he said
+DT VB VBZ RB NN NNS CC JJ NNS PRP VBD
+
+We 're after a little bigger niche he said
+PRP VBP RB DT RB JJR NN PRP VBD
+
+Do n't jump yet
+VB RB VB RB
+
+When it went down by all tradition the economy followed
+WRB PRP VBD RB IN RB NN DT NN VBN
+
+There 's nothing rational about this kind of action
+EX VBZ NN JJ RB DT NN IN NN
+
+The financial-services industry was battered by the crash
+DT NNS NN VBD JJ IN DT VB
+
+Growth is slower
+NNP VBZ JJR
+
+Profits are softer
+NNS VBP JJR
+
+Another big difference between and is n't so comforting
+DT JJ NN IN CC VBZ RB RB JJ
+
+A lot of pent-up demand is gone
+DT NN IN JJ NN VBZ VBN
+
+That was offset by strength elsewhere
+DT VBD VBN IN NN RB
+
+The economy does however depend on the confidence of businesses consumers and foreign investors
+DT NN VBZ RB VB RB DT NN IN NNS NNS CC JJ NNS
+
+A panic on Wall Street does n't exactly inspire confidence
+DT NN IN NNP NNP VBZ RB RB VB NN
+
+The prosperity that followed Black Monday permits a more optimistic view today
+DT NN DT VBD NNP NNP VBZ DT RBR JJ NN NN
+
+They are more sophisticated this time
+PRP VBP JJR JJ DT NN
+
+This could be the first of five or six down quarters
+DT MD VB DT JJ IN CD CC CD IN NNS
+
+A Dow spokeswoman declined to comment on the estimates
+DT NNP NN VBD TO NN IN DT VBZ
+
+First Boston projects that of the companies it follows will report lower profit
+NNP NNP NNS DT IN DT NNS PRP VBZ MD NN JJR VB
+
+The estimates for Du Pont range from to a share
+DT NNS IN NNP NNP NN IN TO DT NN
+
+Du Pont declined to comment
+NNP NNP VBD TO VB
+
+Most estimates for Monsanto run between and a share
+JJS NNS IN NNP NN IN CC DT NN
+
+Monsanto declined to comment
+NNP VBD TO VB
+
+In the latest quarter at least profit is expected to fall sharply
+IN DT JJS NN IN JJS NN VBZ VBN TO VB RB
+
+The company based in Wilmington is by Montedison
+DT NN VBN IN NNP VBZ IN NNP
+
+But the estimates range from break-even to cents a share
+CC DT VBZ NN IN JJ TO NNS DT NN
+
+Himont Quantum and Union Carbide all declined to comment
+NNP NNP CC NNP NNP DT VBD TO VB
+
+Dow Chemical million of senior notes due priced at par
+NNP NNP CD IN JJ NNS JJ VBN IN NN
+
+The offering Series is backed by Freddie Mac securities
+DT VBG NNP VBZ VBN IN NNP NNP NNS
+
+Pricing details were n't immediately available
+NN NNS VBD RB RB JJ
+
+Federal Home Loan Mortgage million of stripped mortgage securities underwritten by BT Securities Corp
+NNP NNP NNP NNP CD IN VBN NN NNS JJ IN NNP NNPS NNP
+
+The collateral is being sold by a thrift institution
+DT NN VBZ VBG VBN IN DT NN NN
+

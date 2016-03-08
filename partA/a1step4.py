@@ -200,15 +200,25 @@ class viterbi:
 def calculate_accuracy(generated_pos_sentences, validation_pos_sentences):
     correct_count = 0
     total_not_none_count = 0
-    total = 0
     for generated_pos_sentence, validation_pos_sentence in zip(generated_pos_sentences, validation_pos_sentences):
         if len(validation_pos_sentence) < 15:
             if generated_pos_sentence is not None:
                 if generated_pos_sentence[0] == validation_pos_sentence:
                     correct_count += 1
                 total_not_none_count += 1
-            total += 1
-    return (correct_count / total_not_none_count) * 100, total_not_none_count, total
+    return (correct_count / total_not_none_count) * 100, total_not_none_count
+
+
+def percentage_dif(generated_pos_sentences, validation_pos_sentences):
+    percentages_thesame = []
+    for generated_pos_sentence, validation_pos_sentence in zip(generated_pos_sentences, validation_pos_sentences):
+        if len(validation_pos_sentence) < 15:
+            if generated_pos_sentence is not None:
+                difference = set(generated_pos_sentence[0]) ^ set(validation_pos_sentence)
+                len_pos = len(validation_pos_sentence)
+                len_dif = len_pos - (len(difference) / 2)
+                percentages_thesame.append((len_dif / len_pos) * 100)
+    return sum(percentages_thesame) / len(percentages_thesame)
 
 
 def save_lists_to_file(filename, sentences1, sentences2):
@@ -248,12 +258,14 @@ def main():
     validation_pos_sentences = extract_pos_sentences(word_pos_test_sentences)
 
     # PRINT ACCURACY OF GENERATED POS SENTENCES
-    percentage_correct, total_non_none, total = calculate_accuracy(generated_pos_sentence, validation_pos_sentences)
-    print('Percentage correct ' + str(percentage_correct) + ', over total not none ' + str(total_non_none) + ', total '
-          + str(total))
+    percentage_correct, total_non_none = calculate_accuracy(generated_pos_sentence, validation_pos_sentences)
+    print('Percentage correct ' + str(percentage_correct))
+    percentage_difference = percentage_dif(generated_pos_sentence, validation_pos_sentences)
+    print('Percentage difference ' + str(percentage_difference))
 
     # SAVE GENERATED POS SENTENCES TO FILE
     save_lists_to_file(args.test_set_predicted, test_sentence_no_pos, generated_pos_sentence)
+
 
 if __name__ == "__main__":
     main()
