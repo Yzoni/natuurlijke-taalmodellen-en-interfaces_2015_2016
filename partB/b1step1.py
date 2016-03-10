@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.5
-__author__ = 'Yorick de Boer'
+__author__ = 'Yorick de Boer [10786015]'
 """
 Binarizes a file containing trees, outputting binarized trees as strings.
 
