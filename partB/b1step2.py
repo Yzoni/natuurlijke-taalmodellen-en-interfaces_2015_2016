@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.5
+
 import argparse
 import re
 import unittest
@@ -6,6 +8,8 @@ import progressbar
 
 from b1step1 import binarized_to_string
 from b1step1 import parse_to_list
+
+__author__ = 'Yorick de Boer [10786015]'
 
 
 def vertical_markovization(nested_list, v_order=2):
