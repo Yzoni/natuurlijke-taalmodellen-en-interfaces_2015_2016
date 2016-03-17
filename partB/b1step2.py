@@ -1,87 +1,3 @@
-"""
-############################
-# (ROOT
-#   (S
-#       (NP
-#           (NNP Ms.)
-#           (NNP Haag)
-#       )
-#       (VP
-#           (VBZ plays)
-#           (NP
-#               (NNP Elianti)
-#           )
-#       )
-#       (. .)
-#   )
-# )
-###########################
-# (ROOT
-#   (S
-#       (NP
-#           (NNP Ms.)
-#           (@NP->_NNP
-#               (NNP Haag)
-#           )
-#       )
-#       (@S->_NP
-#           (VP
-#               (VBZ plays)
-#               (@VP->_VBZ
-#                   (NP
-#                       (NNP Elianti)
-#                   )
-#               )
-#           )
-#           (@S->_NP_VP
-#               (. .)
-#           )
-#       )
-#   )
-# )
-############################
-# (ROOT
-#   (S^ROOT
-#       (NP^S
-#           (NNP Ms.)
-#           (NNP Haag)
-#       )
-#       (VP^S
-#           (VBZ plays)
-#           (NP^VP
-#               (NNP Elianti)
-#           )
-#       )
-#       (. .)
-#   )
-# )
-###########################
-# (ROOT
-#   (S^ROOT
-#       (NP^S
-#           (NNP Ms.)
-#           (@NP^S->_NNP
-#               (NNP Haag)
-#           )
-#       )
-#       (@S^ROOT->_NP
-#           (VP^S
-#               (VBZ plays)
-#               (@VP^S->_VBZ
-#                   (NP^VP
-#                       (NNP Elianti)
-#                   )
-#               )
-#           )
-#           (@S^ROOT->_NP_VP
-#               (. .)
-#           )
-#       )
-#   )
-# )
-###########################
-"""
-
 import argparse
 import re
 import unittest
@@ -93,6 +9,7 @@ from b1step1 import parse_to_list
 
 
 def vertical_markovization(nested_list, v_order=2):
+    """Executes vertical markovization on a tree in the formatted as a nested list."""
     root, nested_list_noroot = nested_list[0], nested_list[1]
     vertical_markov = [vertical_markovization_recursive(nested_list_noroot, root, v_order)]
     vertical_markov.insert(0, root)
@@ -100,6 +17,8 @@ def vertical_markovization(nested_list, v_order=2):
 
 
 def vertical_markovization_recursive(nested_list, root, v_order=2):
+    """Recursive function for the vertical markovization of a tree formatted as a nested list.
+    Works by recursively looping over all nested list elements."""
     if v_order == 1:
         return nested_list
     elif v_order == 2:
@@ -117,7 +36,7 @@ def vertical_markovization_recursive(nested_list, root, v_order=2):
 
 
 def horizontal_markovization_recursive(nested_list, h_order=2):
-    """Binarizes a tree in the formatted as a nested list.
+    """Executes horizontal markovization on a tree in the formatted as a nested list.
     Works by recursively looping over all nested list elements."""
     h_order_cor = h_order - 1
     if isinstance(nested_list, list):
@@ -142,12 +61,13 @@ def horizontal_markovization_recursive(nested_list, h_order=2):
 
 
 def vertical_horizonantal_markovization(nested_list, h_order=2, v_order=2):
+    """Executes both horizontal and vertical markovization on a tree"""
     vertically_markovized = vertical_markovization(nested_list, v_order)
     horizontally_markovized = horizontal_markovization_recursive(vertically_markovized, h_order)
     return horizontally_markovized
 
 
-class TestBStep1(unittest.TestCase):
+class TestBStep2(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
         self.test_string_sentences = [
@@ -176,7 +96,7 @@ class TestBStep1(unittest.TestCase):
 
 
 def markov_to_file(infile, outfile, h_order, v_order):
-    """Reads all lines form a file, binarizes them, and writes the binarized tree to a new file"""
+    """Reads all lines form a file, markovizes them, and writes the markov tree to a new file"""
     f_out = open(outfile, 'w')
     num_lines = sum(1 for _ in open(infile))
     count = 0
@@ -203,7 +123,6 @@ if __name__ == '__main__':
     parser.add_argument('-output', type=str, help='Path to save markov S-Expressions')
     parser.add_argument('-hor', type=int, help='Horizontal markovization parameter')
     parser.add_argument('-ver', type=int, help='Vertical markovization parameter')
-
     args = parser.parse_args()
 
     if not args.input and not args.output:
